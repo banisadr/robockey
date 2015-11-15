@@ -33,17 +33,21 @@ for i = 1:length(rawStarData)
     a = a((a~=0));
     a = reshape(a,[2, length(a)/2]);
     
-    POINTS = length(a);
+    POINTS = size(a,2);
     
     switch POINTS 
         case 4 
             [ robotCenter, R, t] = fourPointCalc(a);
+            4
         case 3 
             [ robotCenter, R, t] = threePointCalc(a);
+            3
         case 2 
             [ robotCenter, R, t] = twoPointCalc(a);
+            2
         case 1 
             [ robotCenter, R, t] = onePointCalc(a);
+            1
     end 
 
     if robotCenter
