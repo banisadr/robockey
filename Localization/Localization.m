@@ -1,8 +1,8 @@
 %% Localization for Robockey 
 % Pete Furlong 
 % MEAM 510 
-clear all
-load('C:\Users\Pete\Documents\MEAM 510\mWii_training_data\C.mat');
+%clear all
+%load('C:\Users\Pete\Documents\MEAM 510\mWii_training_data\C.mat');
 
 figure(1)
 hold on
@@ -18,10 +18,10 @@ for i = 1:length(rawStarData)
     p2 = [rawStarData(i,2); rawStarData(i,6)];
     p3 = [rawStarData(i,3); rawStarData(i,7)];
     p4 = [rawStarData(i,4); rawStarData(i,8)];
-    p1(2) = -1*p1(2);
-    p2(2) = -1*p2(2);
-    p3(2) = -1*p3(2);
-    p4(2) = -1*p4(2);
+%     p1(2) = -1*p1(2);
+%     p2(2) = -1*p2(2);
+%     p3(2) = -1*p3(2);
+%     p4(2) = -1*p4(2);
     
     pvect = [p1 p2 p3 p4];
     for j = 1:4 

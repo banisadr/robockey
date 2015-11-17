@@ -10,16 +10,16 @@ dist23 = norm(pvect(:,3) - pvect(:,2));
 dist24 = norm(pvect(:,4) - pvect(:,2));
 dist34 = norm(pvect(:,4) - pvect(:,3));
 
-distVect = [dist12, dist13, dist14, dist23, dist24, dist34];
+distVect = [dist12, dist13, dist14, dist23, dist24, dist34]
 
-[value, indexMax] = max((distVect>95) & (distVect<105));
+[value, indexMax] = max(distVect);
 
 if value
     
     pointsLong = distIndex(indexMax);
     center = (pvect(:,pointsLong(1))+pvect(:,pointsLong(2)))/2;
     
-    [top, bottom] = orientationCalculation(pointsLong, distVect);
+    [top, bottom] = orientationCalculationFour(pointsLong, distVect);
     centerLine = pvect(:,top)-pvect(:,bottom);
     
 else

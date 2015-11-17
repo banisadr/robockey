@@ -28,19 +28,25 @@ int main(void)
 		unsigned int y2 = blobs[4];
 		unsigned int x3 = blobs[6];
 		unsigned int y3 = blobs[7];
+		unsigned int x4 = blobs[9];
+		unsigned int y4 = blobs[10];
 		
 		m_usb_tx_string("\n");
 		m_usb_tx_uint(x1);
-		m_usb_tx_string(" , ");
+		m_usb_tx_string(",");
 		m_usb_tx_uint(y1);
-		m_usb_tx_string(" , ");
+		m_usb_tx_string(",");
 		m_usb_tx_uint(x2);
-		m_usb_tx_string(" , ");
+		m_usb_tx_string(",");
 		m_usb_tx_uint(y2);
-		m_usb_tx_string(" , ");
+		m_usb_tx_string(",");
 		m_usb_tx_uint(x3);
-		m_usb_tx_string(" , ");
+		m_usb_tx_string(",");
 		m_usb_tx_uint(y3);
+		m_usb_tx_string(",");
+		m_usb_tx_uint(x4);
+		m_usb_tx_string(",");
+		m_usb_tx_uint(y4);
     }
 }
 
