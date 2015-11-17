@@ -5,6 +5,8 @@
 %load('C:\Users\Pete\Documents\MEAM 510\mWii_training_data\C.mat');
 
 figure(1)
+xlim([-512,512]);
+ylim([-768/2,768/2]);
 hold on
 
 alpha = 1;
@@ -26,11 +28,11 @@ for i = 1:length(rawStarData)
     pvect = [p1 p2 p3 p4];
     for j = 1:4 
         if pvect(1,j) == 1023
-            pvect(:,j) = 0;
+            pvect(:,j) = 1023;
         end 
     end
     a = pvect(:);
-    a = a((a~=0));
+    a = a((a~=1023));
     a = reshape(a,[2, length(a)/2]);
     
     POINTS = size(a,2);
@@ -38,7 +40,7 @@ for i = 1:length(rawStarData)
     switch POINTS 
         case 4 
             [ robotCenter, R, t] = fourPointCalc(a);
-            4
+            4;
         case 3 
             [ robotCenter, R, t] = threePointCalc(a);
             3
@@ -62,7 +64,7 @@ for i = 1:length(rawStarData)
         end 
     end
     plot(robotCenter(1),robotCenter(2),'ro');
-    pause(0.01)
+    pause(0.002)
 
     
 end 
