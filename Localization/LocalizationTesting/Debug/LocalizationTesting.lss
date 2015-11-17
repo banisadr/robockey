@@ -78,25 +78,25 @@ Disassembly of section .text:
   a8:	0c 94 d5 00 	jmp	0x1aa	; 0x1aa <__bad_interrupt>
 
 000000ac <__trampolines_end>:
-  ac:	2c 00       	.word	0x002c	; ????
+  ac:	09 00       	.word	0x0009	; ????
 
 000000ae <__c.2021>:
-  ae:	2c 00                                               ,.
+  ae:	09 00                                               ..
 
 000000b0 <__c.2019>:
-  b0:	2c 00                                               ,.
+  b0:	09 00                                               ..
 
 000000b2 <__c.2017>:
-  b2:	2c 00                                               ,.
+  b2:	09 00                                               ..
 
 000000b4 <__c.2015>:
-  b4:	2c 00                                               ,.
+  b4:	09 00                                               ..
 
 000000b6 <__c.2013>:
-  b6:	2c 00                                               ,.
+  b6:	09 00                                               ..
 
 000000b8 <__c.2011>:
-  b8:	2c 00                                               ,.
+  b8:	09 00                                               ..
 
 000000ba <__c.2009>:
   ba:	0a 00                                               ..
@@ -256,49 +256,49 @@ int main(void)
 		m_usb_tx_uint(x1);
  210:	c4 01       	movw	r24, r8
  212:	0e 94 9f 03 	call	0x73e	; 0x73e <m_usb_tx_uint>
-		m_usb_tx_string(",");
+		m_usb_tx_string("\t");
  216:	88 eb       	ldi	r24, 0xB8	; 184
  218:	90 e0       	ldi	r25, 0x00	; 0
  21a:	0e 94 83 03 	call	0x706	; 0x706 <print_P>
 		m_usb_tx_uint(y1);
  21e:	c5 01       	movw	r24, r10
  220:	0e 94 9f 03 	call	0x73e	; 0x73e <m_usb_tx_uint>
-		m_usb_tx_string(",");
+		m_usb_tx_string("\t");
  224:	86 eb       	ldi	r24, 0xB6	; 182
  226:	90 e0       	ldi	r25, 0x00	; 0
  228:	0e 94 83 03 	call	0x706	; 0x706 <print_P>
 		m_usb_tx_uint(x2);
  22c:	c6 01       	movw	r24, r12
  22e:	0e 94 9f 03 	call	0x73e	; 0x73e <m_usb_tx_uint>
-		m_usb_tx_string(",");
+		m_usb_tx_string("\t");
  232:	84 eb       	ldi	r24, 0xB4	; 180
  234:	90 e0       	ldi	r25, 0x00	; 0
  236:	0e 94 83 03 	call	0x706	; 0x706 <print_P>
 		m_usb_tx_uint(y2);
  23a:	c7 01       	movw	r24, r14
  23c:	0e 94 9f 03 	call	0x73e	; 0x73e <m_usb_tx_uint>
-		m_usb_tx_string(",");
+		m_usb_tx_string("\t");
  240:	82 eb       	ldi	r24, 0xB2	; 178
  242:	90 e0       	ldi	r25, 0x00	; 0
  244:	0e 94 83 03 	call	0x706	; 0x706 <print_P>
 		m_usb_tx_uint(x3);
  248:	c8 01       	movw	r24, r16
  24a:	0e 94 9f 03 	call	0x73e	; 0x73e <m_usb_tx_uint>
-		m_usb_tx_string(",");
+		m_usb_tx_string("\t");
  24e:	80 eb       	ldi	r24, 0xB0	; 176
  250:	90 e0       	ldi	r25, 0x00	; 0
  252:	0e 94 83 03 	call	0x706	; 0x706 <print_P>
 		m_usb_tx_uint(y3);
  256:	c3 01       	movw	r24, r6
  258:	0e 94 9f 03 	call	0x73e	; 0x73e <m_usb_tx_uint>
-		m_usb_tx_string(",");
+		m_usb_tx_string("\t");
  25c:	8e ea       	ldi	r24, 0xAE	; 174
  25e:	90 e0       	ldi	r25, 0x00	; 0
  260:	0e 94 83 03 	call	0x706	; 0x706 <print_P>
 		m_usb_tx_uint(x4);
  264:	c2 01       	movw	r24, r4
  266:	0e 94 9f 03 	call	0x73e	; 0x73e <m_usb_tx_uint>
-		m_usb_tx_string(",");
+		m_usb_tx_string("\t");
  26a:	8c ea       	ldi	r24, 0xAC	; 172
  26c:	90 e0       	ldi	r25, 0x00	; 0
  26e:	0e 94 83 03 	call	0x706	; 0x706 <print_P>
