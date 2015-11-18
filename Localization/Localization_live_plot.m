@@ -46,8 +46,14 @@ title('Location');
 hold on        
 axis([-512 512 -768/2 768/2]);
 position = plot(x_plot, y_plot,'ro');
+orientation = plot([0 0],[0 0],'b-');
+o_vectx = [0 0];
+o_vecty = [0 0];
 position.XDataSource = 'x_plot';
 position.YDataSource = 'y_plot';
+orientation.XDataSource = 'o_vectx';
+orientation.YDataSource = 'o_vecty';
+
 grid on;
 grid minor;
 
@@ -68,7 +74,7 @@ grid minor;
         [y2, remain6] = strtok(remain5);
         [y3, remain7] = strtok(remain6);
         [y4] = strtok(remain7);
-        m2_buffer
+        m2_buffer;
         time = toc;                             % Stamp the time the value was received
         
         % Convert star data to doubles
@@ -82,12 +88,20 @@ grid minor;
                        str2double(y3),...
                        str2double(y4)];
                    
-         rawStarData
-        [x_point, y_point] = Localization_function(rawStarData, [x_plot(1); y_plot(1); 1]);
+         rawStarData;
+        [x_point, y_point, o_vect] = Localization_function(rawStarData, [x_plot(1); y_plot(1); 1]);
         
         % Remove the oldest entry 
         x_plot = [x_point x_plot(1:maxPoints-1)] ;
         y_plot = [y_point y_plot(1:maxPoints-1)] ;
+        
+        if o_vect 
+            o_vectx = o_vect(1,:);
+            o_vecty = o_vect(2,:);
+        else 
+            o_vectx = [0 0];
+            o_vecty = [0 0];
+        end 
 
         % Update plots
         refreshdata;
@@ -103,3 +117,4 @@ grid minor;
 %     ME.stack
 %     fclose(M2USB);                              % Close serial object
 %     error('some shit just happened')
+% end

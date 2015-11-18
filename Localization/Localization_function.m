@@ -1,4 +1,4 @@
-function [x, y] = Localization_function(rawStarData,robotCenterPrev)
+function [x, y, o_vect] = Localization_function(rawStarData,robotCenterPrev)
 %% Localization for Robockey 
 % Pete Furlong 
 % MEAM 510 
@@ -10,9 +10,9 @@ function [x, y] = Localization_function(rawStarData,robotCenterPrev)
 % ylim([-768/2,768/2]);
 % hold on
 
-alpha = 1;
-RPrev = [];
-tPrev = [];
+robotCenter = [];
+o_vect = [];
+
 %Cases: 4 stars, 3 stars, 2 starts, 1 star 
 
 for i = 1:size(rawStarData,1)
@@ -35,7 +35,7 @@ for i = 1:size(rawStarData,1)
     
     switch POINTS 
         case 4 
-            [ robotCenter, R, t] = fourPointCalc(a);
+            [ robotCenter, R, t, o_vect] = fourPointCalc(a);
             4;
         case 3 
             [ robotCenter, R, t] = threePointCalc(a);

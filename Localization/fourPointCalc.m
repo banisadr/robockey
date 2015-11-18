@@ -1,4 +1,4 @@
-function [ robotCenter, R, t ] = fourPointCalc( pvect )
+function [ robotCenter, R, t, orientation ] = fourPointCalc( pvect )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -45,6 +45,7 @@ if top && bottom
     %robotCenter = R*(-t);
 
     o_vect = H*[100; 0; 1];
+    orientation = [robotCenter(1), o_vect(1); robotCenter(2), o_vect(2)];
     %line([robotCenter(1), o_vect(1)],[robotCenter(2), o_vect(2)]);
 else
     robotCenter = [];

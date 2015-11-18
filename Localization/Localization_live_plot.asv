@@ -32,7 +32,7 @@ M2USB = serial('COM5','Baudrate', 9600);
 
 fopen(M2USB);                                   % Open up the port to the M2 microcontroller
 flushinput(M2USB);                              % Flush the input buffer
-
+fwrite(M2USB,1);
 % Send initial packet to get first set of data from microcontroller                               % Send a packet to the M2
 time = 0;                                       % Set the start time to 0
 i = 1;                                          % Start the indexer at 1
@@ -46,17 +46,22 @@ title('Location');
 hold on        
 axis([-512 512 -768/2 768/2]);
 position = plot(x_plot, y_plot,'ro');
+orientation = plot(o_vect(1,:),o_vect(2,:));
+o_vectx = o_vect(1,:);
+o_vecty = o_vect(2,:);
 position.XDataSource = 'x_plot';
 position.YDataSource = 'y_plot';
+orientation.XDataSource = 
 grid on;
 grid minor;
 
 %% Run program forever
-try
+% try
     while 1
         
         %% Read in data and send confirmation packet
         m2_buffer = fgetl(M2USB);               % Load buffer
+        fwrite(M2USB,1);
         
         %% Parse microcontroller data
         [x1, remain] = strtok(m2_buffer);
@@ -80,23 +85,28 @@ try
                        str2double(y2),...
                        str2double(y3),...
                        str2double(y4)];
-        
+                   
+         rawStarData;
+        [x_point, y_point, o_vect] = Localization_function(rawStarData, [x_plot(1); y_plot(1); 1]);
         
         % Remove the oldest entry 
-        x_plot = [str2double(TODO) x_plot(1:maxPoints-1)] ;
-        y_plot = [str2double(x2) y_plot(1:maxPoints-1)] ;
+        x_plot = [x_point x_plot(1:maxPoints-1)] ;
+        y_plot = [y_point y_plot(1:maxPoints-1)] ;
+        o_plot1 = [o_vect(1) o_plot1(1:maxPoints-1)];
+        o_plot2 = [o_vect(2) o_plot2(1:maxPoints-1)];
 
         % Update plots
         refreshdata;
         drawnow;
         
-        pause(.0001);
+%         pause(.0001);
         
         hold off
         
         i=i+1;
     end
-catch ME
-    ME.stack
-    fclose(M2USB);                              % Close serial object
-end
+% catch ME
+%     ME.stack
+%     fclose(M2USB);                              % Close serial object
+%     error('some shit just happened')
+% end
