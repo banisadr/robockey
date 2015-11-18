@@ -45,7 +45,7 @@ if top && bottom
     %robotCenter = R*(-t);
 
     o_vect = H*[100; 0; 1];
-    line([robotCenter(1), o_vect(1)],[robotCenter(2), o_vect(2)]);
+    %line([robotCenter(1), o_vect(1)],[robotCenter(2), o_vect(2)]);
 else
     robotCenter = [];
     R = [];

@@ -1,4 +1,4 @@
-/*
+/*9
  * LocalizationTesting.c
  *
  * Created: 11/17/2015 2:27:33 PM
@@ -18,9 +18,11 @@ int main(void)
 	init();
 	m_green(ON);
 	unsigned int blobs[12];
+	char rx_buffer;
 	
     while (1) 
     {
+		
 		m_wii_read(blobs);
 		unsigned int x1 = blobs[0];
 		unsigned int y1 = blobs[1];
@@ -31,22 +33,34 @@ int main(void)
 		unsigned int x4 = blobs[9];
 		unsigned int y4 = blobs[10];
 		
-		m_usb_tx_char('\n');
-		m_usb_tx_uint(x1);
-		m_usb_tx_char('\t');
-		m_usb_tx_uint(x2);
-		m_usb_tx_char('\t');
-		m_usb_tx_uint(x3);
-		m_usb_tx_char('\t');
-		m_usb_tx_uint(x4);
-		m_usb_tx_char('\t');
-		m_usb_tx_uint(y1);
-		m_usb_tx_char('\t');
-		m_usb_tx_uint(y2);
-		m_usb_tx_char('\t');
-		m_usb_tx_uint(y3);
-		m_usb_tx_char('\t');
-		m_usb_tx_uint(y4);
+		while(!m_usb_rx_available());  			// Wait for an indication from the computer
+		rx_buffer = m_usb_rx_char();  			// Read the packet from the computer
+		
+		m_usb_rx_flush();  						// Flush the buffer
+		
+		if(rx_buffer == 1)						// MATLAB is expecting IMU data
+		{
+			m_red(TOGGLE);
+			m_usb_tx_int((int)x1);
+			m_usb_tx_string(" ");
+			m_usb_tx_int((int)x2);
+			m_usb_tx_string(" ");
+			m_usb_tx_int((int)x3);
+			m_usb_tx_string(" ");
+			m_usb_tx_int((int)x4);
+			m_usb_tx_string(" ");
+			m_usb_tx_int((int)y1);
+			m_usb_tx_string(" ");
+			m_usb_tx_int((int)y2);
+			m_usb_tx_string(" ");
+			m_usb_tx_int((int)y3);
+			m_usb_tx_string(" ");
+			m_usb_tx_int((int)y4);
+			m_usb_tx_string("\n");
+
+		}
+		
+		
     }
 }
 
