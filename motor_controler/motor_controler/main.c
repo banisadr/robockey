@@ -235,7 +235,7 @@ void run_control_loop(void)
 	// Get linear error based output
 	float y_delta = y_target-y;
 	float x_delta = x_target-x;
-	float linear_error = sqrt(y_delta*y_delta+x_delta*x_delta);
+	float linear_error = cos(abs(theta_error))*sqrt(y_delta*y_delta+x_delta*x_delta); // Gets component of translational error in direction bot is facing
 	derivative = (linear_error-previous_linear_error)/TIMESTEP;
 	output = LINEAR_Kp*linear_error - LINEAR_Kd*derivative;
 	previous_linear_error = linear_error;
