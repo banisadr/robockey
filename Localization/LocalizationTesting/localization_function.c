@@ -10,6 +10,8 @@ int* threePointCalc(int points[3][2]);
 int* twoPointCalc(int points[2][2]);
 int* onePointCalc(int points[1][2]);
 int* distIndex(int indexVal);
+void orientationCalculationFour(int* pointsLong, int distVect[], int* top, int* bottom);
+
 
 //Public function declarations 
 int* localization_calc(int rawStarData[8], int robotCenterPrev[2])
@@ -128,6 +130,25 @@ int* fourPointCalc(int pvect[4][2])
 	center[0] = (pvect[pointsLong[0]][0] + pvect[pointsLong[1]][0])/2;
 	center[1] = (pvect[pointsLong[0]][1] + pvect[pointsLong[1]][1])/2;
 	
+	int top;
+	int bottom;
+	orientationCalculationFour(pointsLong, distVect, &top, &bottom);
+	
+	int centerLine[2]; 
+	centerLine[0] = pvect[top][0] - pvect[bottom][0];
+	centerLine[1] = pvect[top][1] - pvect[bottom][1];
+	
+	float theta = atan2((float)-1*centerLine[1], (float)centerLine[0]); 
+	theta += M_PI/2;
+	
+	int t[2];
+	t[0] = -1*center[0] + 512;
+	t[1] = -1*center[1] + 382;
+	
+	
+	centerFour[0] = sin(theta)*t[1] - cos(theta)*t[0];
+	centerFour[1] = cos(theta)*t[1] + sin(theta)*t[0];
+	
 	return centerFour;
 }
 
@@ -135,6 +156,8 @@ int* fourPointCalc(int pvect[4][2])
 int* threePointCalc(int pvect[3][2])
 {
 	static int centerThree[2];	
+	centerThree[0] = 1023;
+	centerThree[1] = 1023;
 	return centerThree;
 }
 
@@ -142,6 +165,8 @@ int* threePointCalc(int pvect[3][2])
 int* twoPointCalc(int pvect[2][2])
 {
 	static int centerTwo[2];
+	centerTwo[0] = 1023;
+	centerTwo[1] = 1023;
 	return centerTwo;
 }
 
@@ -149,6 +174,8 @@ int* twoPointCalc(int pvect[2][2])
 int* onePointCalc(int pvect[1][2])
 {
 	static int centerOne[2];
+	centerOne[0] = 1023;
+	centerOne[1] = 1023;
 	return centerOne;
 }
 
@@ -191,4 +218,41 @@ int* distIndex(int indexVal)
 	}
 	
 	return pointsUsed;
+}
+
+
+void orientationCalculationFour(int* pointsLong, int distVect[], int* top, int* bottom)
+{
+	//Find index of shortest length
+	int indexMin = 0;
+	int minVal = distVect[0];
+	for (int i = 0; i < 6; i++){
+		if (distVect[i] < minVal) {
+			indexMin = i;
+			minVal = distVect[i];
+		}
+	}
+	
+	//Find points used by shortest length
+	
+	int* pointsShort; 
+	pointsShort = distIndex(indexMin);
+	
+	if (pointsShort[0] == pointsLong[0]){
+		*top = pointsLong[0];
+		*bottom = pointsLong[1];
+	} else {
+		if (pointsShort[0] == pointsLong[1]){
+			*top = pointsLong[1];
+			*bottom = pointsLong[0];
+		} else {
+			if (pointsShort[1] == pointsLong[0]) {
+				*top = pointsLong[0];
+				*bottom = pointsLong[1];
+			} else {
+				*top = pointsLong[1];
+				*bottom = pointsLong[0];
+			}
+		}
+	}
 }
