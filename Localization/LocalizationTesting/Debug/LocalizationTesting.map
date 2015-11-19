@@ -1,13 +1,31 @@
 Archive member included to satisfy reference by file (symbol)
 
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fixsfsi.o)
+                              localization_function.o (__fixsfsi)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fixunssfsi.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fixsfsi.o) (__fixunssfsi)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(floatsisf.o)
+                              localization_function.o (__floatsisf)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_split3.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fixunssfsi.o) (__fp_splitA)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_zero.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fixunssfsi.o) (__fp_zero)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(sqrt.o)
+                              localization_function.o (sqrt)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_mpack.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(sqrt.o) (__fp_mpack)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_nan.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(sqrt.o) (__fp_nan)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_norm2.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(sqrt.o) (__fp_norm2)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
                               C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega32u4/avr5/crtatmega32u4.o (exit)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_tablejump2.o)
                               m_usb.o (__tablejump2__)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_copy_data.o)
-                              m_usb.o (__do_copy_data)
+                              localization_function.o (__do_copy_data)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_clear_bss.o)
-                              m_usb.o (__do_clear_bss)
+                              localization_function.o (__do_clear_bss)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(itoa_ncheck.o)
                               m_usb.o (__itoa_ncheck)
 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(ltoa_ncheck.o)
@@ -23,6 +41,15 @@ Discarded input sections
 
  .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega32u4/avr5/crtatmega32u4.o
  .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega32u4/avr5/crtatmega32u4.o
+ .text          0x00000000        0x0 localization_function.o
+ .data          0x00000000        0x0 localization_function.o
+ .bss           0x00000000        0x0 localization_function.o
+ .text.threePointCalc
+                0x00000000        0x6 localization_function.o
+ .text.twoPointCalc
+                0x00000000        0x6 localization_function.o
+ .text.onePointCalc
+                0x00000000        0x6 localization_function.o
  .text          0x00000000        0x0 main.o
  .data          0x00000000        0x0 main.o
  .bss           0x00000000        0x0 main.o
@@ -67,6 +94,12 @@ Discarded input sections
  .bss           0x00000000        0x0 m_usb.o
  .text.m_usb_isconnected
                 0x00000000        0x6 m_usb.o
+ .text.m_usb_rx_char
+                0x00000000       0x3c m_usb.o
+ .text.m_usb_rx_available
+                0x00000000       0x1e m_usb.o
+ .text.m_usb_rx_flush
+                0x00000000       0x2c m_usb.o
  .text.usb_serial_putchar_nowait
                 0x00000000       0x42 m_usb.o
  .text.usb_serial_write
@@ -101,6 +134,33 @@ Discarded input sections
  .data          0x00000000        0x0 m_wii.o
  .bss           0x00000000        0x0 m_wii.o
  .text.end      0x00000000        0x8 m_wii.o
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fixsfsi.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fixsfsi.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fixsfsi.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fixunssfsi.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fixunssfsi.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fixunssfsi.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(floatsisf.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(floatsisf.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(floatsisf.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_split3.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_split3.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_split3.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_zero.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_zero.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_zero.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(sqrt.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(sqrt.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(sqrt.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_mpack.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_mpack.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_mpack.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_nan.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_nan.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_nan.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_norm2.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_norm2.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_norm2.o)
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
  .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
  .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
@@ -201,6 +261,7 @@ Linker script and memory map
 
 Address of section .data set to 0x800100
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega32u4/avr5/crtatmega32u4.o
+LOAD localization_function.o
 LOAD main.o
 LOAD m_bus.o
 LOAD m_rf.o
@@ -306,7 +367,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0xc92
+.text           0x00000000     0x1368
  *(.vectors)
  .vectors       0x00000000       0xac C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.0.90/gcc/dev/atmega32u4/avr5/crtatmega32u4.o
                 0x00000000                __vector_default
@@ -320,22 +381,12 @@ END GROUP
  *(.trampolines*)
                 0x000000ac                __trampolines_end = .
  *(.progmem*)
- .progmem.data.__c.2027
-                0x000000ac        0x2 main.o
- .progmem.data.__c.2025
-                0x000000ae        0x2 main.o
- .progmem.data.__c.2023
-                0x000000b0        0x2 main.o
- .progmem.data.__c.2021
-                0x000000b2        0x2 main.o
  .progmem.data.__c.2019
-                0x000000b4        0x2 main.o
+                0x000000ac        0x3 main.o
  .progmem.data.__c.2017
-                0x000000b6        0x2 main.o
+                0x000000af        0x7 main.o
  .progmem.data.__c.2015
-                0x000000b8        0x2 main.o
- .progmem.data.__c.2013
-                0x000000ba        0x2 main.o
+                0x000000b6        0x6 main.o
  .progmem.data.descriptor_list
                 0x000000bc       0x2a m_usb.o
  .progmem.data.string3
@@ -439,72 +490,104 @@ END GROUP
                 0x000001aa                __vector_42
                 0x000001ae                . = ALIGN (0x2)
  *(.text.*)
- .text.init     0x000001ae       0x16 main.o
-                0x000001ae                init
- .text.main     0x000001c4       0xd8 main.o
-                0x000001c4                main
+ .text.distIndex
+                0x000001ae       0x9e localization_function.o
+                0x000001ae                distIndex
+ .text.fourPointCalc
+                0x0000024c      0x2b8 localization_function.o
+                0x0000024c                fourPointCalc
+ .text.localization_calc
+                0x00000504      0x23c localization_function.o
+                0x00000504                localization_calc
+ .text.init     0x00000740       0x16 main.o
+                0x00000740                init
+ .text.main     0x00000756       0xae main.o
+                0x00000756                main
  .text.m_bus_init
-                0x0000029c       0x22 m_bus.o
-                0x0000029c                m_bus_init
+                0x00000804       0x22 m_bus.o
+                0x00000804                m_bus_init
  .text.m_usb_init
-                0x000002be       0x32 m_usb.o
-                0x000002be                m_usb_init
- .text.m_usb_rx_char
-                0x000002f0       0x3c m_usb.o
-                0x000002f0                m_usb_rx_char
- .text.m_usb_rx_available
-                0x0000032c       0x1e m_usb.o
-                0x0000032c                m_usb_rx_available
- .text.m_usb_rx_flush
-                0x0000034a       0x2c m_usb.o
-                0x0000034a                m_usb_rx_flush
+                0x00000826       0x32 m_usb.o
+                0x00000826                m_usb_init
  .text.m_usb_tx_char
-                0x00000376       0xb6 m_usb.o
-                0x00000376                m_usb_tx_char
+                0x00000858       0xb6 m_usb.o
+                0x00000858                m_usb_tx_char
  .text.__vector_10
-                0x0000042c       0x7c m_usb.o
-                0x0000042c                __vector_10
+                0x0000090e       0x7c m_usb.o
+                0x0000090e                __vector_10
  .text.__vector_11
-                0x000004a8      0x306 m_usb.o
-                0x000004a8                __vector_11
- .text.print_P  0x000007ae       0x38 m_usb.o
-                0x000007ae                print_P
+                0x0000098a      0x306 m_usb.o
+                0x0000098a                __vector_11
+ .text.print_P  0x00000c90       0x38 m_usb.o
+                0x00000c90                print_P
  .text.m_usb_tx_int
-                0x000007e6       0x68 m_usb.o
-                0x000007e6                m_usb_tx_int
+                0x00000cc8       0x68 m_usb.o
+                0x00000cc8                m_usb_tx_int
  .text.twi_wait
-                0x0000084e       0x26 m_wii.o
-                0x0000084e                twi_wait
+                0x00000d30       0x26 m_wii.o
+                0x00000d30                twi_wait
  .text.send_byte
-                0x00000874       0x1a m_wii.o
-                0x00000874                send_byte
+                0x00000d56       0x1a m_wii.o
+                0x00000d56                send_byte
  .text.start_write
-                0x0000088e       0x2e m_wii.o
-                0x0000088e                start_write
+                0x00000d70       0x2e m_wii.o
+                0x00000d70                start_write
  .text.m_wii_open
-                0x000008bc      0x212 m_wii.o
-                0x000008bc                m_wii_open
+                0x00000d9e      0x212 m_wii.o
+                0x00000d9e                m_wii_open
  .text.start_read
-                0x00000ace       0x30 m_wii.o
-                0x00000ace                start_read
+                0x00000fb0       0x30 m_wii.o
+                0x00000fb0                start_read
  .text.m_wii_read
-                0x00000afe      0x126 m_wii.o
-                0x00000afe                m_wii_read
+                0x00000fe0      0x126 m_wii.o
+                0x00000fe0                m_wii_read
+ .text.avr-libc.fplib
+                0x00001106        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fixsfsi.o)
+                0x00001106                __fixsfsi
+ .text.avr-libc.fplib
+                0x00001114       0x5e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fixunssfsi.o)
+                0x00001114                __fixunssfsi
+ .text.avr-libc.fplib
+                0x00001172       0x7a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(floatsisf.o)
+                0x00001172                __floatunsisf
+                0x00001176                __floatsisf
+ .text.avr-libc.fplib
+                0x000011ec       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_split3.o)
+                0x000011ec                __fp_split3
+                0x000011fc                __fp_splitA
+ .text.avr-libc.fplib
+                0x00001230        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_zero.o)
+                0x00001230                __fp_zero
+                0x00001232                __fp_szero
+ .text.avr-libc.fplib
+                0x0000123e       0x8c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(sqrt.o)
+                0x0000124a                sqrtf
+                0x0000124a                sqrt
+ .text.avr-libc.fplib
+                0x000012ca       0x1c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_mpack.o)
+                0x000012ca                __fp_mpack
+                0x000012ce                __fp_mpack_finite
+ .text.avr-libc.fplib
+                0x000012e6        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_nan.o)
+                0x000012e6                __fp_nan
+ .text.avr-libc.fplib
+                0x000012ec        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libm.a(fp_norm2.o)
+                0x000012ec                __fp_norm2
  .text.avr-libc
-                0x00000c24       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(itoa_ncheck.o)
-                0x00000c24                __itoa_ncheck
+                0x000012fa       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(itoa_ncheck.o)
+                0x000012fa                __itoa_ncheck
  .text.avr-libc
-                0x00000c3a       0x34 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(utoa_ncheck.o)
-                0x00000c3a                __utoa_ncheck
-                0x00000c3c                __utoa_common
+                0x00001310       0x34 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(utoa_ncheck.o)
+                0x00001310                __utoa_ncheck
+                0x00001312                __utoa_common
  .text.avr-libc
-                0x00000c6e       0x20 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strrev.o)
-                0x00000c6e                strrev
-                0x00000c8e                . = ALIGN (0x2)
+                0x00001344       0x20 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr5\libc.a(strrev.o)
+                0x00001344                strrev
+                0x00001364                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000c8e        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
-                0x00000c8e                _exit
-                0x00000c8e                exit
+ .fini9         0x00001364        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
+                0x00001364                _exit
+                0x00001364                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -523,47 +606,60 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000c8e        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
+ .fini0         0x00001364        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000c92                _etext = .
+                0x00001368                _etext = .
 
-.data           0x00800100        0x8 load address 0x00000c92
+.data           0x00800100        0xc load address 0x00001368
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
+ .data.rc.2012  0x00800100        0x4 localization_function.o
  .data.cdc_line_coding
-                0x00800100        0x7 m_usb.o
+                0x00800104        0x7 m_usb.o
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x00800108                . = ALIGN (0x2)
- *fill*         0x00800107        0x1 
-                0x00800108                _edata = .
-                0x00800108                PROVIDE (__data_end, .)
+                0x0080010c                . = ALIGN (0x2)
+ *fill*         0x0080010b        0x1 
+                0x0080010c                _edata = .
+                0x0080010c                PROVIDE (__data_end, .)
 
-.bss            0x00800108        0x4
-                0x00800108                PROVIDE (__bss_start, .)
+.bss            0x0080010c       0x1c
+                0x0080010c                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
+ .bss.pointsUsed.2053
+                0x0080010c        0x4 localization_function.o
+ .bss.centerOne.2049
+                0x00800110        0x4 localization_function.o
+ .bss.centerTwo.2045
+                0x00800114        0x4 localization_function.o
+ .bss.centerThree.2041
+                0x00800118        0x4 localization_function.o
+ .bss.centerFour.2022
+                0x0080011c        0x4 localization_function.o
+ .bss.robotCenter.1989
+                0x00800120        0x4 localization_function.o
  .bss.cdc_line_rtsdtr
-                0x00800108        0x1 m_usb.o
+                0x00800124        0x1 m_usb.o
  .bss.transmit_previous_timeout
-                0x00800109        0x1 m_usb.o
+                0x00800125        0x1 m_usb.o
  .bss.transmit_flush_timer
-                0x0080010a        0x1 m_usb.o
+                0x00800126        0x1 m_usb.o
  .bss.usb_configuration
-                0x0080010b        0x1 m_usb.o
+                0x00800127        0x1 m_usb.o
  *(COMMON)
-                0x0080010c                PROVIDE (__bss_end, .)
-                0x00000c92                __data_load_start = LOADADDR (.data)
-                0x00000c9a                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800128                PROVIDE (__bss_end, .)
+                0x00001368                __data_load_start = LOADADDR (.data)
+                0x00001374                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x0080010c        0x0
-                0x0080010c                PROVIDE (__noinit_start, .)
+.noinit         0x00800128        0x0
+                0x00800128                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x0080010c                PROVIDE (__noinit_end, .)
-                0x0080010c                _end = .
-                0x0080010c                PROVIDE (__heap_start, .)
+                0x00800128                PROVIDE (__noinit_end, .)
+                0x00800128                _end = .
+                0x00800128                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -604,11 +700,12 @@ END GROUP
 
 .comment        0x00000000       0x60
  *(.comment)
- .comment       0x00000000       0x30 main.o
+ .comment       0x00000000       0x30 localization_function.o
                                  0x31 (size before relaxing)
- .comment       0x00000030       0x31 m_bus.o
- .comment       0x00000030       0x30 m_usb.o
+ .comment       0x00000030       0x31 main.o
+ .comment       0x00000030       0x30 m_bus.o
                                  0x31 (size before relaxing)
+ .comment       0x00000060       0x31 m_usb.o
  .comment       0x00000060       0x31 m_wii.o
 
 .note.gnu.avr.deviceinfo
@@ -631,65 +728,74 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x1b0
+.debug_aranges  0x00000000      0x1f8
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x28 main.o
+                0x00000000       0x48 localization_function.o
  .debug_aranges
-                0x00000028       0x58 m_bus.o
+                0x00000048       0x28 main.o
  .debug_aranges
-                0x00000080       0xe0 m_usb.o
+                0x00000070       0x58 m_bus.o
  .debug_aranges
-                0x00000160       0x50 m_wii.o
+                0x000000c8       0xe0 m_usb.o
+ .debug_aranges
+                0x000001a8       0x50 m_wii.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x1d71
+.debug_info     0x00000000     0x2134
  *(.debug_info .gnu.linkonce.wi.*)
- .debug_info    0x00000000      0x3f9 main.o
- .debug_info    0x000003f9      0x2fa m_bus.o
- .debug_info    0x000006f3      0xf86 m_usb.o
- .debug_info    0x00001679      0x6f8 m_wii.o
+ .debug_info    0x00000000      0x4dc localization_function.o
+ .debug_info    0x000004dc      0x2e0 main.o
+ .debug_info    0x000007bc      0x2fa m_bus.o
+ .debug_info    0x00000ab6      0xf86 m_usb.o
+ .debug_info    0x00001a3c      0x6f8 m_wii.o
 
-.debug_abbrev   0x00000000      0x6ef
+.debug_abbrev   0x00000000      0x8c5
  *(.debug_abbrev)
- .debug_abbrev  0x00000000      0x149 main.o
- .debug_abbrev  0x00000149      0x149 m_bus.o
- .debug_abbrev  0x00000292      0x2bd m_usb.o
- .debug_abbrev  0x0000054f      0x1a0 m_wii.o
+ .debug_abbrev  0x00000000      0x1d4 localization_function.o
+ .debug_abbrev  0x000001d4      0x14b main.o
+ .debug_abbrev  0x0000031f      0x149 m_bus.o
+ .debug_abbrev  0x00000468      0x2bd m_usb.o
+ .debug_abbrev  0x00000725      0x1a0 m_wii.o
 
-.debug_line     0x00000000      0xa80
+.debug_line     0x00000000      0xc69
  *(.debug_line .debug_line.* .debug_line_end)
- .debug_line    0x00000000       0xec main.o
- .debug_line    0x000000ec      0x16a m_bus.o
- .debug_line    0x00000256      0x5b9 m_usb.o
- .debug_line    0x0000080f      0x271 m_wii.o
+ .debug_line    0x00000000      0x19c localization_function.o
+ .debug_line    0x0000019c      0x139 main.o
+ .debug_line    0x000002d5      0x16a m_bus.o
+ .debug_line    0x0000043f      0x5b9 m_usb.o
+ .debug_line    0x000009f8      0x271 m_wii.o
 
-.debug_frame    0x00000000      0x4d4
+.debug_frame    0x00000000      0x5e0
  *(.debug_frame)
- .debug_frame   0x00000000       0x44 main.o
- .debug_frame   0x00000044       0xb8 m_bus.o
- .debug_frame   0x000000fc      0x328 m_usb.o
- .debug_frame   0x00000424       0xb0 m_wii.o
+ .debug_frame   0x00000000      0x10c localization_function.o
+ .debug_frame   0x0000010c       0x44 main.o
+ .debug_frame   0x00000150       0xb8 m_bus.o
+ .debug_frame   0x00000208      0x328 m_usb.o
+ .debug_frame   0x00000530       0xb0 m_wii.o
 
-.debug_str      0x00000000      0x6f8
+.debug_str      0x00000000      0x862
  *(.debug_str)
- .debug_str     0x00000000      0x1e2 main.o
-                                0x220 (size before relaxing)
- .debug_str     0x000001e2       0x98 m_bus.o
+ .debug_str     0x00000000      0x2b6 localization_function.o
+                                0x2ea (size before relaxing)
+ .debug_str     0x000002b6       0x40 main.o
+                                0x1fa (size before relaxing)
+ .debug_str     0x000002f6      0x106 m_bus.o
                                 0x22d (size before relaxing)
- .debug_str     0x0000027a      0x3e8 m_usb.o
+ .debug_str     0x000003fc      0x3d7 m_usb.o
                                 0x5a7 (size before relaxing)
- .debug_str     0x00000662       0x96 m_wii.o
+ .debug_str     0x000007d3       0x8f m_wii.o
                                 0x248 (size before relaxing)
 
-.debug_loc      0x00000000     0x2082
+.debug_loc      0x00000000     0x27cb
  *(.debug_loc)
- .debug_loc     0x00000000       0x66 main.o
- .debug_loc     0x00000066      0x23b m_bus.o
- .debug_loc     0x000002a1     0x190c m_usb.o
- .debug_loc     0x00001bad      0x4d5 m_wii.o
+ .debug_loc     0x00000000      0x684 localization_function.o
+ .debug_loc     0x00000684      0x12b main.o
+ .debug_loc     0x000007af      0x23b m_bus.o
+ .debug_loc     0x000009ea     0x190c m_usb.o
+ .debug_loc     0x000022f6      0x4d5 m_wii.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -709,12 +815,13 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x1c0
+.debug_ranges   0x00000000      0x240
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x18 main.o
- .debug_ranges  0x00000018       0x48 m_bus.o
- .debug_ranges  0x00000060      0x120 m_usb.o
- .debug_ranges  0x00000180       0x40 m_wii.o
+ .debug_ranges  0x00000000       0x80 localization_function.o
+ .debug_ranges  0x00000080       0x18 main.o
+ .debug_ranges  0x00000098       0x48 m_bus.o
+ .debug_ranges  0x000000e0      0x120 m_usb.o
+ .debug_ranges  0x00000200       0x40 m_wii.o
 
 .debug_macro
  *(.debug_macro)
