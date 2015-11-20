@@ -21,7 +21,7 @@ y_plot = zeros(1,maxPoints);
 
 %% SERIAL
 %----> for ***WINDOWS***
-M2USB = serial('COM5','Baudrate', 9600);
+M2USB = serial('COM7','Baudrate', 9600);
 % *** Use the device manager to check where the microcontroller is plugged
 % into.
 
@@ -46,13 +46,13 @@ title('Location');
 hold on        
 axis([-512 512 -768/2 768/2]);
 position = plot(x_plot, y_plot,'ro');
-orientation = plot([0 0],[0 0],'b-');
+%orientation = plot([0 0],[0 0],'b-');
 o_vectx = [0 0];
 o_vecty = [0 0];
 position.XDataSource = 'x_plot';
 position.YDataSource = 'y_plot';
-orientation.XDataSource = 'o_vectx';
-orientation.YDataSource = 'o_vecty';
+%orientation.XDataSource = 'o_vectx';
+%orientation.YDataSource = 'o_vecty';
 
 grid on;
 grid minor;
@@ -67,41 +67,41 @@ grid minor;
         
         %% Parse microcontroller data
         [x1, remain] = strtok(m2_buffer);
-        [x2, remain2] = strtok(remain);
-        [x3, remain3] = strtok(remain2);
-        [x4, remain4] = strtok(remain3);
-        [y1, remain5] = strtok(remain4);
-        [y2, remain6] = strtok(remain5);
-        [y3, remain7] = strtok(remain6);
-        [y4] = strtok(remain7);
+%         [x2, remain2] = strtok(remain);
+%         [x3, remain3] = strtok(remain2);
+%         [x4, remain4] = strtok(remain3);
+%         [y1, remain5] = strtok(remain4);
+%         [y2, remain6] = strtok(remain5);
+%         [y3, remain7] = strtok(remain6);
+        [y1] = strtok(remain);
         m2_buffer;
         time = toc;                             % Stamp the time the value was received
         
         % Convert star data to doubles
         
-        rawStarData = [str2double(x1),...
-                       str2double(x2),...
-                       str2double(x3),...
-                       str2double(x4),...
-                       str2double(y1),...
-                       str2double(y2),...
-                       str2double(y3),...
-                       str2double(y4)];
+%         rawStarData = [str2double(x1),...
+%                        str2double(x2),...
+%                        str2double(x3),...
+%                        str2double(x4),...
+%                        str2double(y1),...
+%                        str2double(y2),...
+%                        str2double(y3),...
+%                        str2double(y4)];
                    
-         rawStarData;
-        [x_point, y_point, o_vect] = Localization_function(rawStarData, [x_plot(1); y_plot(1); 1]);
+%          rawStarData;
+%         [x_point, y_point, o_vect] = Localization_function(rawStarData, [x_plot(1); y_plot(1); 1]);
         
         % Remove the oldest entry 
-        x_plot = [x_point x_plot(1:maxPoints-1)] ;
-        y_plot = [y_point y_plot(1:maxPoints-1)] ;
+        x_plot = [x1 x_plot(1:maxPoints-1)] ;
+        y_plot = [y1 y_plot(1:maxPoints-1)] ;
         
-        if o_vect 
-            o_vectx = o_vect(1,:);
-            o_vecty = o_vect(2,:);
-        else 
-            o_vectx = [0 0];
-            o_vecty = [0 0];
-        end 
+%         if o_vect 
+%             o_vectx = o_vect(1,:);
+%             o_vecty = o_vect(2,:);
+%         else 
+%             o_vectx = [0 0];
+%             o_vecty = [0 0];
+%         end 
 
         % Update plots
         refreshdata;
