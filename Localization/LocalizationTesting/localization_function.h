@@ -5,8 +5,6 @@
 
 #include "m_general.h"
 
-int* localization_calc(int rawStarData[8], int robotCenterPrev[3]);
-
-
+float* localization_calc(int rawStarData[8], float robotCenterPrev[3]);
 
 #endif

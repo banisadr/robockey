@@ -23,8 +23,8 @@ int main(void)
 	unsigned int blobs[12];
 	char rx_buffer;
 
-	int robotCenterPrev[3] = {1023, 1023, 360};
-	int* robotCenter;
+	float robotCenterPrev[3] = {1023, 1023, 360};
+	float* robotCenter;
 	
     while (1) 
     {

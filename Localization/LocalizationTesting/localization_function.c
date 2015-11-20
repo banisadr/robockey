@@ -5,18 +5,18 @@
 #include "m_usb.h"
 #include <stdlib.h>
 
-int* fourPointCalc(int points[4][2]);
-int* threePointCalc(int points[3][2]);
-int* twoPointCalc(int points[2][2]);
-int* onePointCalc(int points[1][2]);
+float* fourPointCalc(int points[4][2]);
+float* threePointCalc(int points[3][2]);
+float* twoPointCalc(int points[2][2]);
+float* onePointCalc(int points[1][2]);
 int* distIndex(int indexVal);
-void orientationCalculationFour(int* pointsLong, int distVect[], int* top, int* bottom);
+void orientationCalculationFour(int* pointsLong, float distVect[], int* top, int* bottom);
 
 
 //Public function declarations 
-int* localization_calc(int rawStarData[8], int robotCenterPrev[3])
+float* localization_calc(int rawStarData[8], float robotCenterPrev[3])
 {
-	static int robotCenter[3];
+	static float robotCenter[3];
 	
 	//Put the star data in a matrix where each row corresponds to 4 points
 	int pvect[4][2] = {
@@ -59,8 +59,8 @@ int* localization_calc(int rawStarData[8], int robotCenterPrev[3])
 		
 		m_red(ON);
 		
-		int* calcPointer; 
-		static int rc[3] = {0,0,0};
+		float* calcPointer; 
+		static float rc[3] = {0,0,0};
 		rc[0] = robotCenterPrev[0];
 		rc[1] = robotCenterPrev[1];
 		rc[2] = robotCenterPrev[2];
@@ -87,9 +87,9 @@ int* localization_calc(int rawStarData[8], int robotCenterPrev[3])
 				
 		}
 		
-		robotCenter[0] = (int)calcPointer[0];
-		robotCenter[1] = (int)calcPointer[1];
-		robotCenter[2] = (int)calcPointer[2];
+		robotCenter[0] = (float)calcPointer[0];
+		robotCenter[1] = (float)calcPointer[1];
+		robotCenter[2] = (float)calcPointer[2];
 		
 	
 	} else { 
@@ -107,21 +107,21 @@ int* localization_calc(int rawStarData[8], int robotCenterPrev[3])
 }
 
 
-int* fourPointCalc(int pvect[4][2])
+float* fourPointCalc(int pvect[4][2])
 {
-	static int centerFour[3];
+	static float centerFour[3];
 	
-	int dist01 = sqrt((pvect[1][0]-pvect[0][0])*(pvect[1][0]-pvect[0][0]) + (pvect[1][1]-pvect[0][1])*(pvect[1][1]-pvect[0][1]));
-	int dist02 = sqrt((pvect[2][0]-pvect[0][0])*(pvect[2][0]-pvect[0][0]) + (pvect[2][1]-pvect[0][1])*(pvect[2][1]-pvect[0][1]));
-	int dist03 = sqrt((pvect[3][0]-pvect[0][0])*(pvect[3][0]-pvect[0][0]) + (pvect[3][1]-pvect[0][1])*(pvect[3][1]-pvect[0][1]));
-	int dist12 = sqrt((pvect[2][0]-pvect[1][0])*(pvect[2][0]-pvect[1][0]) + (pvect[2][1]-pvect[1][1])*(pvect[2][1]-pvect[1][1]));
-	int dist13 = sqrt((pvect[3][0]-pvect[1][0])*(pvect[3][0]-pvect[1][0]) + (pvect[3][1]-pvect[1][1])*(pvect[3][1]-pvect[1][1]));
-	int dist23 = sqrt((pvect[3][0]-pvect[2][0])*(pvect[3][0]-pvect[2][0]) + (pvect[3][1]-pvect[2][1])*(pvect[3][1]-pvect[2][1]));
+	float dist01 = sqrt((float)(pvect[1][0]-pvect[0][0])*(pvect[1][0]-pvect[0][0]) + (pvect[1][1]-pvect[0][1])*(pvect[1][1]-pvect[0][1]));
+	float dist02 = sqrt((float)(pvect[2][0]-pvect[0][0])*(pvect[2][0]-pvect[0][0]) + (pvect[2][1]-pvect[0][1])*(pvect[2][1]-pvect[0][1]));
+	float dist03 = sqrt((float)(pvect[3][0]-pvect[0][0])*(pvect[3][0]-pvect[0][0]) + (pvect[3][1]-pvect[0][1])*(pvect[3][1]-pvect[0][1]));
+	float dist12 = sqrt((float)(pvect[2][0]-pvect[1][0])*(pvect[2][0]-pvect[1][0]) + (pvect[2][1]-pvect[1][1])*(pvect[2][1]-pvect[1][1]));
+	float dist13 = sqrt((float)(pvect[3][0]-pvect[1][0])*(pvect[3][0]-pvect[1][0]) + (pvect[3][1]-pvect[1][1])*(pvect[3][1]-pvect[1][1]));
+	float dist23 = sqrt((float)(pvect[3][0]-pvect[2][0])*(pvect[3][0]-pvect[2][0]) + (pvect[3][1]-pvect[2][1])*(pvect[3][1]-pvect[2][1]));
 	
-	int distVect[6] = {dist01, dist02, dist03, dist12, dist13, dist23};
+	float distVect[6] = {dist01, dist02, dist03, dist12, dist13, dist23};
 	
 	int indexMax = 0;
-	int maxVal = 0;
+	float maxVal = 0;
 	for (int i = 0; i < 6; i++){
 		if (distVect[i] > maxVal) {
 			indexMax = i;
@@ -131,7 +131,7 @@ int* fourPointCalc(int pvect[4][2])
 	
 	int* pointsLong; 
 	pointsLong = distIndex(indexMax);
-	int center[2]; 
+	float center[2]; 
 	center[0] = (pvect[pointsLong[0]][0] + pvect[pointsLong[1]][0])/2;
 	center[1] = (pvect[pointsLong[0]][1] + pvect[pointsLong[1]][1])/2;
 	
@@ -139,14 +139,14 @@ int* fourPointCalc(int pvect[4][2])
 	int bottom;
 	orientationCalculationFour(pointsLong, distVect, &top, &bottom);
 	
-	int centerLine[2]; 
+	float centerLine[2]; 
 	centerLine[0] = pvect[top][0] - pvect[bottom][0];
 	centerLine[1] = pvect[top][1] - pvect[bottom][1];
 	
-	float theta = atan2((float)-1*centerLine[1], (float)centerLine[0]); 
-	theta += M_PI/2;
+	float theta = atan2(-1.0*centerLine[1], (float)centerLine[0]); 
+	theta += M_PI/2.0;
 	
-	int t[2];
+	float t[2];
 	t[0] = -1*center[0] + 512;
 	t[1] = -1*center[1] + 382;
 	
@@ -159,27 +159,27 @@ int* fourPointCalc(int pvect[4][2])
 }
 
 
-int* threePointCalc(int pvect[3][2])
+float* threePointCalc(int pvect[3][2])
 {
-	static int centerThree[2];	
+	static float centerThree[2];	
 	centerThree[0] = 1023;
 	centerThree[1] = 1023;
 	return centerThree;
 }
 
 
-int* twoPointCalc(int pvect[2][2])
+float* twoPointCalc(int pvect[2][2])
 {
-	static int centerTwo[2];
+	static float centerTwo[2];
 	centerTwo[0] = 1023;
 	centerTwo[1] = 1023;
 	return centerTwo;
 }
 
 
-int* onePointCalc(int pvect[1][2])
+float* onePointCalc(int pvect[1][2])
 {
-	static int centerOne[2];
+	static float centerOne[2];
 	centerOne[0] = 1023;
 	centerOne[1] = 1023;
 	return centerOne;
@@ -227,11 +227,11 @@ int* distIndex(int indexVal)
 }
 
 
-void orientationCalculationFour(int* pointsLong, int distVect[], int* top, int* bottom)
+void orientationCalculationFour(int* pointsLong, float distVect[], int* top, int* bottom)
 {
 	//Find index of shortest length
 	int indexMin = 0;
-	int minVal = distVect[0];
+	float minVal = distVect[0];
 	for (int i = 0; i < 6; i++){
 		if (distVect[i] < minVal) {
 			indexMin = i;
@@ -256,9 +256,20 @@ void orientationCalculationFour(int* pointsLong, int distVect[], int* top, int* 
 				*top = pointsLong[0];
 				*bottom = pointsLong[1];
 			} else {
-				*top = pointsLong[1];
-				*bottom = pointsLong[0];
+				if (pointsShort[1] == pointsLong[1])
+				{
+					*top = pointsLong[1];
+					*bottom = pointsLong[0];
+				} else {
+						m_green(OFF);
+						*top = pointsLong[1];
+						*bottom = pointsLong[0];
+				}
 			}
 		}
 	}
+// 	m_usb_tx_int(*top);
+// 	m_usb_tx_string(" ");
+// 	m_usb_tx_int(*bottom);
+// 	m_usb_tx_string(" ");
 }
