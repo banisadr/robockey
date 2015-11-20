@@ -66,7 +66,7 @@ grid minor;
         fwrite(M2USB,1);
         
         %% Parse microcontroller data
-        m2_buffer
+%        m2_buffer
         [x1, remain] = strtok(m2_buffer);
 %         [x2, remain2] = strtok(remain);
 %         [x3, remain3] = strtok(remain2);

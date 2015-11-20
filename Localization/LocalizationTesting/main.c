@@ -21,7 +21,7 @@ int main(void)
 	init();
 	m_green(ON);
 	unsigned int blobs[12];
-	//char rx_buffer;
+	char rx_buffer;
 
 	int robotCenterPrev[2] = {1023, 1023};
 	int* robotCenter;
@@ -45,20 +45,20 @@ int main(void)
 
 		
 		
- 		//while(!m_usb_rx_available());  			// Wait for an indication from the computer
-		//rx_buffer = m_usb_rx_char();  			// Read the packet from the computer
+ 		while(!m_usb_rx_available());  			// Wait for an indication from the computer
+		rx_buffer = m_usb_rx_char();  			// Read the packet from the computer
 		
-		//m_usb_rx_flush();  						// Flush the buffer
+		m_usb_rx_flush();  						// Flush the buffer
 		
-//		if(rx_buffer == 1)						// MATLAB is expecting IMU data
-//		{
+		if(rx_buffer == 1)						// MATLAB is expecting IMU data
+		{
 			m_red(TOGGLE);
 			m_usb_tx_int((int)robotCenter[0]);
 			m_usb_tx_string(" ");
 			m_usb_tx_int((int)robotCenter[1]);
 			m_usb_tx_string("\n");
 
-//		}
+		}
 		
 		
     }
