@@ -21,7 +21,7 @@ int main(void)
 	init();
 	m_green(ON);
 	unsigned int blobs[12];
-	char rx_buffer;
+	//char rx_buffer;
 
 	int robotCenterPrev[2] = {1023, 1023};
 	int* robotCenter;
@@ -40,14 +40,15 @@ int main(void)
 		unsigned int y4 = blobs[10];
 		
 		int rawStarData[8] = {x1, x2, x3, x4, y1, y2, y3, y4};
-		robotCenter = localization_calc(rawStarData, robotCenterPrev); 
+		robotCenter = localization_calc(rawStarData, robotCenterPrev);
+		//m_usb_tx_string("Hey Pete!");
 
 		
 		
- 		while(!m_usb_rx_available());  			// Wait for an indication from the computer
-		rx_buffer = m_usb_rx_char();  			// Read the packet from the computer
+ 		//while(!m_usb_rx_available());  			// Wait for an indication from the computer
+		//rx_buffer = m_usb_rx_char();  			// Read the packet from the computer
 		
-		m_usb_rx_flush();  						// Flush the buffer
+		//m_usb_rx_flush();  						// Flush the buffer
 		
 //		if(rx_buffer == 1)						// MATLAB is expecting IMU data
 //		{
