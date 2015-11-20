@@ -15,12 +15,13 @@
 void init(); 
 
 int main(void)
-{
+{	
+	m_clockdivide(0);
 	
 	init();
 	m_green(ON);
 	unsigned int blobs[12];
-	//char rx_buffer;
+	char rx_buffer;
 
 	int robotCenterPrev[2] = {1023, 1023};
 	int* robotCenter;
@@ -41,38 +42,22 @@ int main(void)
 		int rawStarData[8] = {x1, x2, x3, x4, y1, y2, y3, y4};
 		robotCenter = localization_calc(rawStarData, robotCenterPrev); 
 
-		m_usb_tx_string("\nx = ");
-		m_usb_tx_int((int)robotCenter[0]);
-		m_usb_tx_string("  y = ");
-		m_usb_tx_int((int)robotCenter[1]);
-		m_usb_tx_string("  ");
 		
-// 		while(!m_usb_rx_available());  			// Wait for an indication from the computer
-// 		rx_buffer = m_usb_rx_char();  			// Read the packet from the computer
-// 		
-// 		m_usb_rx_flush();  						// Flush the buffer
-// 		
-// 		if(rx_buffer == 1)						// MATLAB is expecting IMU data
-// 		{
-// 			m_red(TOGGLE);
-// 			m_usb_tx_int((int)x1);
-// 			m_usb_tx_string(" ");
-// 			m_usb_tx_int((int)x2);
-// 			m_usb_tx_string(" ");
-// 			m_usb_tx_int((int)x3);
-// 			m_usb_tx_string(" ");
-// 			m_usb_tx_int((int)x4);
-// 			m_usb_tx_string(" ");
-// 			m_usb_tx_int((int)y1);
-// 			m_usb_tx_string(" ");
-// 			m_usb_tx_int((int)y2);
-// 			m_usb_tx_string(" ");
-// 			m_usb_tx_int((int)y3);
-// 			m_usb_tx_string(" ");
-// 			m_usb_tx_int((int)y4);
-// 			m_usb_tx_string("\n");
-// 
-// 		}
+		
+ 		while(!m_usb_rx_available());  			// Wait for an indication from the computer
+		rx_buffer = m_usb_rx_char();  			// Read the packet from the computer
+		
+		m_usb_rx_flush();  						// Flush the buffer
+		
+//		if(rx_buffer == 1)						// MATLAB is expecting IMU data
+//		{
+			m_red(TOGGLE);
+			m_usb_tx_int((int)robotCenter[0]);
+			m_usb_tx_string(" ");
+			m_usb_tx_int((int)robotCenter[1]);
+			m_usb_tx_string("\n");
+
+//		}
 		
 		
     }

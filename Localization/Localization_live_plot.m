@@ -66,6 +66,7 @@ grid minor;
         fwrite(M2USB,1);
         
         %% Parse microcontroller data
+        m2_buffer
         [x1, remain] = strtok(m2_buffer);
 %         [x2, remain2] = strtok(remain);
 %         [x3, remain3] = strtok(remain2);
@@ -76,6 +77,8 @@ grid minor;
         [y1] = strtok(remain);
         m2_buffer;
         time = toc;                             % Stamp the time the value was received
+        x1 = str2double(x1);
+        y1 = str2double(y1);
         
         % Convert star data to doubles
         

@@ -46,7 +46,7 @@ int* localization_calc(int rawStarData[8], int robotCenterPrev[2])
 			pointIndices[numPoints] = i;
 		}
 	}
-	m_usb_tx_int(numPoints);
+	
 	
 	if (numPoints) { //If any points were found 
 		int points[numPoints][2]; //an array of the usable points 
