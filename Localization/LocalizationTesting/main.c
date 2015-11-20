@@ -23,7 +23,7 @@ int main(void)
 	unsigned int blobs[12];
 	char rx_buffer;
 
-	int robotCenterPrev[2] = {1023, 1023};
+	int robotCenterPrev[3] = {1023, 1023, 360};
 	int* robotCenter;
 	
     while (1) 
@@ -41,9 +41,10 @@ int main(void)
 		
 		int rawStarData[8] = {x1, x2, x3, x4, y1, y2, y3, y4};
 		robotCenter = localization_calc(rawStarData, robotCenterPrev);
-		//m_usb_tx_string("Hey Pete!");
-
 		
+		robotCenterPrev[0] = robotCenter[0];
+		robotCenterPrev[1] = robotCenter[1];
+		robotCenterPrev[2] = robotCenter[2];
 		
  		while(!m_usb_rx_available());  			// Wait for an indication from the computer
 		rx_buffer = m_usb_rx_char();  			// Read the packet from the computer
@@ -56,6 +57,8 @@ int main(void)
 			m_usb_tx_int((int)robotCenter[0]);
 			m_usb_tx_string(" ");
 			m_usb_tx_int((int)robotCenter[1]);
+			m_usb_tx_string(" ");
+			m_usb_tx_int((int)robotCenter[2]);
 			m_usb_tx_string("\n");
 
 		}

@@ -14,9 +14,9 @@ void orientationCalculationFour(int* pointsLong, int distVect[], int* top, int* 
 
 
 //Public function declarations 
-int* localization_calc(int rawStarData[8], int robotCenterPrev[2])
+int* localization_calc(int rawStarData[8], int robotCenterPrev[3])
 {
-	static int robotCenter[2];
+	static int robotCenter[3];
 	
 	//Put the star data in a matrix where each row corresponds to 4 points
 	int pvect[4][2] = {
@@ -60,7 +60,10 @@ int* localization_calc(int rawStarData[8], int robotCenterPrev[2])
 		m_red(ON);
 		
 		int* calcPointer; 
-		static int rc[2] = {1023, 1023};
+		static int rc[3] = {0,0,0};
+		rc[0] = robotCenterPrev[0];
+		rc[1] = robotCenterPrev[1];
+		rc[2] = robotCenterPrev[2];
 		switch (numPoints)
 		{
 			case 4 :
@@ -86,11 +89,13 @@ int* localization_calc(int rawStarData[8], int robotCenterPrev[2])
 		
 		robotCenter[0] = (int)calcPointer[0];
 		robotCenter[1] = (int)calcPointer[1];
+		robotCenter[2] = (int)calcPointer[2];
 		
 	
 	} else { 
-		robotCenter[0] = 1023; 
-		robotCenter[1] = 1023; 
+		robotCenter[0] = robotCenterPrev[0]; 
+		robotCenter[1] = robotCenterPrev[1];
+		robotCenter[2] = robotCenterPrev[2];
 		m_red(OFF);	
 	}
 	
@@ -104,7 +109,7 @@ int* localization_calc(int rawStarData[8], int robotCenterPrev[2])
 
 int* fourPointCalc(int pvect[4][2])
 {
-	static int centerFour[2];
+	static int centerFour[3];
 	
 	int dist01 = sqrt((pvect[1][0]-pvect[0][0])*(pvect[1][0]-pvect[0][0]) + (pvect[1][1]-pvect[0][1])*(pvect[1][1]-pvect[0][1]));
 	int dist02 = sqrt((pvect[2][0]-pvect[0][0])*(pvect[2][0]-pvect[0][0]) + (pvect[2][1]-pvect[0][1])*(pvect[2][1]-pvect[0][1]));
@@ -148,6 +153,7 @@ int* fourPointCalc(int pvect[4][2])
 	
 	centerFour[0] = sin(theta)*t[1] - cos(theta)*t[0];
 	centerFour[1] = cos(theta)*t[1] + sin(theta)*t[0];
+	centerFour[2] = -theta*180.0/M_PI;
 	
 	return centerFour;
 }

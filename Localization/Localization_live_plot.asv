@@ -75,12 +75,11 @@ grid minor;
 %         [y3, remain7] = strtok(remain6);
         [y1, remain1] = strtok(remain);
         [theta] = strtok(remain1);
-        m2_buffer
+        m2_buffer;
         time = toc;                             % Stamp the time the value was received
         x1 = str2double(x1);
         y1 = str2double(y1);
         theta = str2double(theta);
-        theta;
         
         % Convert star data to doubles
         
@@ -100,9 +99,9 @@ grid minor;
         x_plot = [x1 x_plot(1:maxPoints-1)] ;
         y_plot = [y1 y_plot(1:maxPoints-1)] ;
         
-        if theta 
+        if o_vect 
             o_vectx = [x1,x1+100*cosd(theta)];
-            o_vecty = [y1,y1+100*sind(theta)];
+            o_vecty = [y1,y1+1;
         else 
             o_vectx = [0 0];
             o_vecty = [0 0];
