@@ -42,8 +42,8 @@ int* localization_calc(int rawStarData[8], int robotCenterPrev[2])
 	
 	for (int i = 0; i < 4; i++){
 		if (pvect[i][0] != 1023){
-			numPoints++;
 			pointIndices[numPoints] = i;
+			numPoints++;
 		}
 	}
 	
@@ -52,8 +52,8 @@ int* localization_calc(int rawStarData[8], int robotCenterPrev[2])
 		int points[numPoints][2]; //an array of the usable points 
 		for (int i = 0; i < numPoints; i++) {
 			int index = pointIndices[i];
+			points[i][0] = pvect[index][0];
 			points[i][1] = pvect[index][1];
-			points[i][2] = pvect[index][2];
 		}
 		
 		
