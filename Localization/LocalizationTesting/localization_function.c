@@ -10,30 +10,12 @@ float* threePointCalc(int points[3][2]);
 float* twoPointCalc(int points[2][2]);
 float* onePointCalc(int points[1][2]);
 int* distIndex(int indexVal);
-void orientationCalculationFour(int* pointsLong, float distVect[], int* top, int* bottom);
+void orientationCalculationFour(int pointsLong[2], float distVect[], int* top, int* bottom);
 
 
 //Public function declarations 
 float* localization_calc(int rawStarData[8], float robotCenterPrev[3])
-{
-
-	m_usb_tx_string(" rawStarData: ");
-	m_usb_tx_int(rawStarData[0]);
-	m_usb_tx_string(" ");
-	m_usb_tx_int(rawStarData[1]);
-	m_usb_tx_string(" ");
-	m_usb_tx_int(rawStarData[2]);
-	m_usb_tx_string(" ");
-	m_usb_tx_int(rawStarData[3]);
-	m_usb_tx_string(" ");
-	m_usb_tx_int(rawStarData[4]);
-	m_usb_tx_string(" ");
-	m_usb_tx_int(rawStarData[5]);
-	m_usb_tx_string(" ");
-	m_usb_tx_int(rawStarData[6]);
-	m_usb_tx_string(" ");
-	m_usb_tx_int(rawStarData[7]);
-	
+{	
 	static float robotCenter[3];
 	
 	//Put the star data in a matrix where each row corresponds to 4 points
@@ -141,8 +123,11 @@ float* fourPointCalc(int pvect[4][2])
 		}
 	}
 	
-	int* pointsLong; 
-	pointsLong = distIndex(indexMax);
+	int* pointsLongRef; 
+	pointsLongRef = distIndex(indexMax);
+	
+	int pointsLong[2] = {(pointsLongRef[0]), (pointsLongRef[1])};
+	
 	float center[2]; 
 	center[0] = (pvect[pointsLong[0]][0] + pvect[pointsLong[1]][0])/2;
 	center[1] = (pvect[pointsLong[0]][1] + pvect[pointsLong[1]][1])/2;
@@ -239,7 +224,7 @@ int* distIndex(int indexVal)
 }
 
 
-void orientationCalculationFour(int* pointsLong, float distVect[], int* top, int* bottom)
+void orientationCalculationFour(int pointsLong[2], float distVect[], int* top, int* bottom)
 {
 	//Find index of shortest length
 	int indexMin = 0;
@@ -251,11 +236,10 @@ void orientationCalculationFour(int* pointsLong, float distVect[], int* top, int
 		}
 	}
 	
-	//Find points used by shortest length
-	
-	int* pointsShort; 
-	pointsShort = distIndex(indexMin);
-	
+	//Find points used by shortest length	
+	int* pointsShortRef;
+	pointsShortRef = distIndex(indexMin);	
+	int pointsShort[2] = {pointsShortRef[0], pointsShortRef[1]};	
 	if (pointsShort[0] == pointsLong[0]){
 		*top = pointsLong[0];
 		*bottom = pointsLong[1];
@@ -280,8 +264,4 @@ void orientationCalculationFour(int* pointsLong, float distVect[], int* top, int
 			}
 		}
 	}
-// 	m_usb_tx_int(*top);
-// 	m_usb_tx_string(" ");
-// 	m_usb_tx_int(*bottom);
-// 	m_usb_tx_string(" ");
 }

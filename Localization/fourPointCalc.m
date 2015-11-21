@@ -12,11 +12,14 @@ dist34 = norm(pvect(:,4) - pvect(:,3));
 
 distVect = [dist12, dist13, dist14, dist23, dist24, dist34];
 
+distVect
+
 [value, indexMax] = max(distVect);
 
 if value
     
     pointsLong = distIndex(indexMax);
+    pointsLong
     center = (pvect(:,pointsLong(1))+pvect(:,pointsLong(2)))/2;
     
     [top, bottom] = orientationCalculationFour(pointsLong, distVect);
@@ -28,6 +31,9 @@ end
 
 if top && bottom
 
+    top
+    bottom
+    
     centerLine = pvect(:,top)-pvect(:,bottom);
     theta = atan2(-centerLine(2),centerLine(1)) + pi/2; %y is negative to compensate for pixels being flipped
 

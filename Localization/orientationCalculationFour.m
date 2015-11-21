@@ -6,6 +6,7 @@ function [top, bottom] = orientationCalculationFour(realLongIndex, distVect)
 if value
     
     pointsShort = distIndex(indexShort);
+    pointsShort
     
     top = intersect(pointsShort,realLongIndex);
     
