@@ -16,6 +16,24 @@ void orientationCalculationFour(int* pointsLong, float distVect[], int* top, int
 //Public function declarations 
 float* localization_calc(int rawStarData[8], float robotCenterPrev[3])
 {
+
+	m_usb_tx_string(" rawStarData: ");
+	m_usb_tx_int(rawStarData[0]);
+	m_usb_tx_string(" ");
+	m_usb_tx_int(rawStarData[1]);
+	m_usb_tx_string(" ");
+	m_usb_tx_int(rawStarData[2]);
+	m_usb_tx_string(" ");
+	m_usb_tx_int(rawStarData[3]);
+	m_usb_tx_string(" ");
+	m_usb_tx_int(rawStarData[4]);
+	m_usb_tx_string(" ");
+	m_usb_tx_int(rawStarData[5]);
+	m_usb_tx_string(" ");
+	m_usb_tx_int(rawStarData[6]);
+	m_usb_tx_string(" ");
+	m_usb_tx_int(rawStarData[7]);
+	
 	static float robotCenter[3];
 	
 	//Put the star data in a matrix where each row corresponds to 4 points
@@ -26,15 +44,6 @@ float* localization_calc(int rawStarData[8], float robotCenterPrev[3])
 		{rawStarData[3], rawStarData[7]}
 	};
 	
-	//If the x or y data is not received, ensure that the whole point is removed (set to 1023)
-	for (int i = 0; i < 4; i++ ){
-		for (int j = 0; j < 2; j++ ){
-			if (pvect[i][j] == 1023){
-				pvect[i][0] = 1023;
-				pvect[i][1] = 1023;
-			}
-		}
-	}
 	
 	//Extract all points that are readable into an array
 	int pointIndices[4] = {0, 0, 0, 0}; //Initializes the indices
@@ -71,15 +80,18 @@ float* localization_calc(int rawStarData[8], float robotCenterPrev[3])
 				break;
 				
 			case 3 : 
-				calcPointer = threePointCalc(points);
+				//calcPointer = threePointCalc(points);
+				calcPointer = &rc[0];
 				break;
 				
 			case 2 :
-				calcPointer = twoPointCalc(points);
+				//calcPointer = twoPointCalc(points);
+				calcPointer = &rc[0];
 				break; 
 				
 			case 1 : 
-				calcPointer = onePointCalc(points);
+				//calcPointer = onePointCalc(points);
+				calcPointer = &rc[0];
 				break; 
 				
 			default:
@@ -192,32 +204,32 @@ int* distIndex(int indexVal)
 		
 	switch (indexVal)
 	{
-		case 1 : 
+		case 0 : 
 			pointsUsed[0] = 0;
 			pointsUsed[1] = 1;
 			break;
 			
-		case 2 : 
+		case 1 : 
 			pointsUsed[0] = 0;
 			pointsUsed[1] = 2;
 			break;
 			
-		case 3 : 
+		case 2 : 
 			pointsUsed[0] = 0;
 			pointsUsed[1] = 3;
+			break;
+			
+		case 3 : 
+			pointsUsed[0] = 1;
+			pointsUsed[1] = 2;
 			break;
 			
 		case 4 : 
 			pointsUsed[0] = 1;
-			pointsUsed[1] = 2;
-			break;
-			
-		case 5 : 
-			pointsUsed[0] = 1;
 			pointsUsed[1] = 3;
 			break;
 			
-		case 6 :
+		case 5 :
 			pointsUsed[0] = 2;
 			pointsUsed[1] = 3;
 			break;
