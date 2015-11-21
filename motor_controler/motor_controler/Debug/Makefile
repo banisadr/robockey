@@ -37,6 +37,7 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../localization_function.c \
 ../main.c \
 ../m_bus.c \
 ../m_imu.c \
@@ -52,6 +53,7 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+localization_function.o \
 main.o \
 m_bus.o \
 m_imu.o \
@@ -60,6 +62,7 @@ m_usb.o \
 m_wii.o
 
 OBJS_AS_ARGS +=  \
+localization_function.o \
 main.o \
 m_bus.o \
 m_imu.o \
@@ -68,6 +71,7 @@ m_usb.o \
 m_wii.o
 
 C_DEPS +=  \
+localization_function.d \
 main.d \
 m_bus.d \
 m_imu.d \
@@ -76,6 +80,7 @@ m_usb.d \
 m_wii.d
 
 C_DEPS_AS_ARGS +=  \
+localization_function.d \
 main.d \
 m_bus.d \
 m_imu.d \
@@ -97,6 +102,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

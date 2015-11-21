@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+localization_function.c
+
 main.c
 
 m_bus.c
