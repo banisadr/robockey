@@ -257,7 +257,7 @@ void orientationCalculationFour(int pointsLong[2], float distVect[], int* top, i
 					*top = pointsLong[1];
 					*bottom = pointsLong[0];
 				} else {
-						m_green(OFF);
+//						m_green(OFF);
 						*top = pointsLong[1];
 						*bottom = pointsLong[0];
 				}

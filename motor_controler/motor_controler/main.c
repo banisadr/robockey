@@ -42,19 +42,27 @@ Definitions
 #define TIMESTEP 0.001
 
 /* Filter Values */
-#define ALPHA_LOW 0.9
+#define ALPHA_LOW 0.99
 
 /* Motor Driver Values */
 #define PWM_FREQ 1000
 
 /* PD Controller Values */
-#define THETA_Kp 1.00
-#define THETA_Kd 0.00
-#define LINEAR_Kp 1.00
+#define THETA_Kp  1.0
+#define THETA_Kd  0.0
+#define LINEAR_Kp 0.20
 #define LINEAR_Kd 0.00
+
+/* Wireless Comms */
+#define CHANNEL 1
+#define RXADDRESS_1 0x20
+#define RXADDRESS_2 0x21
+#define RXADDRESS_3 0x22
+#define PACKET_LENGTH 10
 
 /* Other */
 #define PI 3.14159265359
+#define MAX_DUTY_CYCLE 0.4
 
 /************************************************************
 Prototype Functions
@@ -66,8 +74,19 @@ void timer1_init(void); //Setup timer1 for motor PWM control
 void timer3_init(void); //Setup timer3 for fixed timestep calculations
 void update_position(void); //Get IMU data, filter, update angle, update control
 void run_control_loop(void); //Run Control Loop
-int lowpass(float alpha, int previous_output, int reading); //Lowpass filter
+float lowpass(float alpha, float previous_output, float reading); //Lowpass filter
 float theta_error_correction(float error); // Ensures that bot turns efficiently
+
+void wireless_enable(void); // Initialize the wireless system
+void wireless_recieve(void); // Send data to slave
+void update_game_state(void); // Update game state
+
+/* Reactions to Game States */
+void comm_test(void);
+void play(void);
+void pause(void);
+void halftime(void);
+void game_over(void);
 
 
 /************************************************************
@@ -82,7 +101,7 @@ float right_duty_cycle = 0.1;
 float x = 0;
 float y = 0;
 float theta = 0;
-float x_target = 0;
+float x_target = -350;
 float y_target = 0;
 float theta_target = 0;
 
@@ -95,22 +114,31 @@ unsigned int blobs[12];
 float robotCenterPrev[3] = {1023, 1023, 360};
 float* robotCenter;
 
+/* Wireless Comms*/
+char buffer[PACKET_LENGTH] = {0,0,0,0,0,0,0,0,0,0}; // Wifi input
+char game_state = 0x00; // Stores game state
+char SR = 0; // Score R
+char SB = 0; // Score B
+int game_pause = 1; // If true, bot will not move
+
 /************************************************************
 Main Loop
 ************************************************************/
 int main(void)
 {
 	/* Confirm Power */
+	m_green(ON);
 	m_red(ON);
 
 	/* Initializations */
 	init();
 	usb_enable();
+	wireless_enable();
 	timer1_init();
 	timer3_init();
 
 	/* Confirm successful initialization(s) */
-	m_green(ON);
+//	m_green(ON);
 
 	/* Run */
 	while (1){
@@ -198,9 +226,9 @@ void timer3_init(void)
 
 
 /* Lowpass Filter using Alpha_low */
-int lowpass(float alpha, int previous_output, int reading)
+float lowpass(float alpha, float previous_output, float reading)
 {
-	return (int)((float)reading*alpha +(1-alpha)*(float)previous_output);
+	return ((float)reading*alpha +(1-alpha)*(float)previous_output);
 }
 
 /* Get x, y, theta, filterupdate control */
@@ -265,13 +293,13 @@ void run_control_loop(void)
 	linear_output = linear_output/40; //Normalize to value of 1 at 40 pixels (~10 cm) given Kp gain of 1
 	
 	// Update duty cycle based on linear distance
-// 	if (fabs(theta_error) < PI/2){
-// 		left_duty_cycle += linear_output;
-// 		right_duty_cycle += linear_output;
-// 		} else{
-// 		left_duty_cycle -= linear_output;
-// 		right_duty_cycle -= linear_output;
-// 	}
+	if (fabs(theta_error) < PI/2){
+		left_duty_cycle += linear_output;
+		right_duty_cycle += linear_output;
+		} else{
+		left_duty_cycle -= linear_output;
+		right_duty_cycle -= linear_output;
+	}
 	
 	// Set motor direction based on pos/neg
 	if (left_duty_cycle<0){clear(PORTB,1);}
@@ -284,17 +312,30 @@ void run_control_loop(void)
 	left_duty_cycle = fabs(left_duty_cycle);
 	right_duty_cycle = fabs(right_duty_cycle);
 	
-	while (left_duty_cycle > 0.2)
+	// Get larger of two duty cycles
+	float max = 0;
+	if (left_duty_cycle > right_duty_cycle)
 	{
-		left_duty_cycle = 0.9*left_duty_cycle;
-		right_duty_cycle = 0.9*right_duty_cycle;
-	}
-
-	while (right_duty_cycle > 0.2)
+		max = left_duty_cycle;
+	} else
 	{
-		left_duty_cycle = 0.9*left_duty_cycle;
-		right_duty_cycle = 0.9*right_duty_cycle;
+		max = right_duty_cycle;
 	}
+	
+	// Normalize duty cycles
+	if (max > MAX_DUTY_CYCLE)
+	{
+		left_duty_cycle = left_duty_cycle/max*MAX_DUTY_CYCLE;
+		right_duty_cycle = right_duty_cycle/max*MAX_DUTY_CYCLE;
+	}
+	
+	// Check game state
+	if (game_pause)
+	{
+		left_duty_cycle = 0;
+		right_duty_cycle = 0;
+	}
+	
 	// Update timer values
 	OCR1B = ((float)OCR1A)*left_duty_cycle;
 	OCR1C = ((float)OCR1A)*right_duty_cycle;
@@ -306,6 +347,101 @@ float theta_error_correction(float error)
 {
 	if(fabs(error)>PI){return error-2.0*PI*error/fabs(error);}
 	else{return error;}
+}
+
+/* Initialize the Wireless System */
+void wireless_enable(void)
+{
+	m_bus_init(); // Enable mBUS
+	m_rf_open(CHANNEL,RXADDRESS_1,PACKET_LENGTH); // Configure mRF
+}
+
+/* Recieve Wireless Data */
+void wireless_recieve(void)
+{
+	m_rf_read(buffer,PACKET_LENGTH); // Read RF Signal
+// 	m_usb_tx_string("\n Game state: ");
+// 	m_usb_tx_char(buffer[0]);
+	game_state = buffer[0];
+	
+	
+	update_game_state();
+}
+
+/* Update Game State Based on Comm Protocol */
+void update_game_state(void)
+{
+	switch(game_state){
+		case 0xA0: // Comm Test
+		comm_test();
+		break;
+		case 0xA1: // Play
+	//		m_green(TOGGLE);
+			play();
+			update_position();
+			if (x>0) {
+				x_target = -350;
+			} else {
+				x_target = 350;
+			}
+			break;
+		case 0xA2: // Goal R
+		SR = buffer[1];
+		SB = buffer[2];
+		pause();
+		break;
+		case 0xA3: // Goal B
+		SR = buffer[1];
+		SB = buffer[2];
+		pause();
+		break;
+		case 0xA4: // Pause
+		pause();
+		break;
+		case 0xA6: // Halftime
+		halftime();
+		break;
+		case 0xA7: // Game Over
+		game_over();
+		break;
+		case 0xA8: // Enemy Positions
+		break;
+		default: // Invalid Comm
+		break;
+	}
+}
+
+void comm_test(void)
+{
+	// Assign Defending goal
+	// Flash color of LED for defending goal
+}
+
+void play(void)
+{
+	// Light LED of defending goal
+	// Play
+	game_pause = 0;
+}
+
+void pause(void)
+{
+	// Stop within 3  seconds
+	game_pause = 1;
+}
+
+void halftime(void)
+{
+	// Stop play
+	// Switch assigned goal
+	game_pause = 1;
+}
+
+void game_over(void)
+{
+	// Stop play
+	// Do a victory dance based on score?
+	game_pause = 1;
 }
 
 /************************************************************
@@ -326,6 +462,11 @@ ISR(TIMER1_COMPB_vect){
 /* Motor PWM Control (Disable right at TCNT1 = OCR1C) */
 ISR(TIMER1_COMPC_vect){
 	clear(PORTB,2); // B2 Right motor disable
+}
+
+/* Recieve Wireless Comm */
+ISR(INT2_vect){
+	wireless_recieve();
 }
 
 /************************************************************
