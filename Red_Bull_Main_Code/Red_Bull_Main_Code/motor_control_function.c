@@ -1,13 +1,43 @@
-// Motor Control General Function
+/************************************************************
+Header Information
+************************************************************/
+/* 
+* Motor Control General Function
+*
+* Update position - updates static x, y, theta
+* Get position - sends x, y, theta to 3 float array pointer
+* Run control loop - updates OCR1a/b/c to control motor speed/dir
+*/
 
-#include <avr/io.h>
+/*****************************************************************
+==================================================================
+### INTERNAL README: ADD TO EVERYTIME BEFORE SENDING TO GITHUB ###
+
+Modified by Bahram on 12/1/15 to modularize motor control
+
+==================================================================
+*****************************************************************/
+
+
+/************************************************************
+Included Files & Libraries
+************************************************************/
+
 #include "m_general.h"
 #include "m_wii.h"
 #include "localization_function.h"
 #include "initialization_function.h"
 
+/************************************************************
+Private Function Definitions
+************************************************************/
+
 float lowpass(float alpha, float previous_output, float reading); //Lowpass filter
 float theta_error_correction(float error); // Ensures that bot turns efficiently
+
+/************************************************************
+Global Variables
+************************************************************/
 
 /* Positioning */
 static float x = 0;
@@ -22,6 +52,10 @@ static float robotCenterPrev[3] = {1023, 1023, 360};
 /* Motor Control */
 float left_duty_cycle = 0.1;
 float right_duty_cycle = 0.1;
+
+/************************************************************
+Public Functions
+************************************************************/
 
 /* Return current x,y, theta */
 char get_position(float* postition_buffer){
@@ -69,7 +103,7 @@ void update_position(void)
 
 
 
-/* PID Control (Currently only for theta) */
+/* PID Control */
 void run_motor_control_loop(float x_target, float y_target, float max_duty_cycle, float max_theta, float theta_kp, float theta_kd, float linear_kp, float linear_kd, int game_pause)
 {
 	// Set theta target
@@ -153,8 +187,9 @@ void run_motor_control_loop(float x_target, float y_target, float max_duty_cycle
 
 }
 
-
-
+/************************************************************
+Private Functions
+************************************************************/
 
 /* Lowpass Filter using Alpha_low */
 float lowpass(float alpha, float previous_output, float reading)
@@ -168,3 +203,7 @@ float theta_error_correction(float error)
 	if(fabs(error)>M_PI){return error-2.0*M_PI*error/fabs(error);}
 	else{return error;}
 }
+
+/************************************************************
+End of Function File
+************************************************************/

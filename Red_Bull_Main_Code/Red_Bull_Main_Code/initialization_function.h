@@ -22,6 +22,10 @@
 #define RXADDRESS_3 0x22
 #define PACKET_LENGTH 10
 
+/* Puck Finding */
+#define HAS_PUCK_THRESHOLD 2000
+#define PUCK_VECTOR_LEN 10
+
 #include <avr/io.h>
 #include "m_general.h"
 #include "m_bus.h"

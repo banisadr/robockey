@@ -10,7 +10,9 @@
 
 void initialize_robockey(void) {
 
-	/* Initialization of Pins and System Clock */
+/************************************************************
+Initialization of Pins and System Clock
+************************************************************/
 
 	// Set to 16 MHz
 	m_clockdivide(CLOCK_DIVIDE);
@@ -38,14 +40,17 @@ void initialize_robockey(void) {
 
 
 
+/************************************************************
+Setup USB
+************************************************************/
 
-	/* Setup USB */
 	m_usb_init();
 
 
 
-
-	/* Timer1 Initialization for PWM Motor Control */
+/************************************************************
+Timer1 Initialization for PWM Motor Control
+************************************************************/
 
 	//Timer initialization
 	clear(TCCR1B,CS12);	//Set timer1 prescaler to /1
@@ -71,8 +76,9 @@ void initialize_robockey(void) {
 
 
 
-	
-	/* Timer3 Initialization for fixed timestep calculations */
+/************************************************************
+Timer3 Initialization for fixed timestep calculations
+************************************************************/
 
 	clear(TCCR3B,CS32); // prescale /1
 	clear(TCCR3B,CS31);
@@ -89,9 +95,51 @@ void initialize_robockey(void) {
 
 
 
-
-	/* Initialize the Wireless System */
+/************************************************************
+Initialize the Wireless System
+************************************************************/
 
 	m_bus_init(); // Enable mBUS
 	m_rf_open(CHANNEL,RXADDRESS_1,PACKET_LENGTH); // Configure mRF
+
+
+
+/************************************************************
+Setup ADC
+************************************************************/
+	
+	clear(ADMUX,REFS1); // Set reference voltage to Vcc
+	set(ADMUX,REFS0);
+	
+	clear(ADCSRA,ADPS2); // Set prescaler to /8
+	set(ADCSRA,ADPS1);
+	set(ADCSRA,ADPS0);
+	
+	// Disable Digital input to:
+	set(DIDR0,ADC0D); // ADC0
+	set(DIDR0,ADC1D); // ADC1
+	set(DIDR0,ADC4D); // ADC4
+	set(DIDR0,ADC5D); // ADC5
+	set(DIDR0,ADC6D); // ADC6
+	set(DIDR0,ADC7D); // ADC7
+	set(DIDR2,ADC8D); // ADC8
+	set(DIDR2,ADC9D); // ADC9
+	set(DIDR2,ADC10D); // ADC10
+	set(DIDR2,ADC11D); // ADC11
+	set(DIDR2,ADC12D); // ADC812
+	set(DIDR2,ADC13D); // ADC13
+
+	
+	set(ADCSRA,ADIE); // Enable interrupt for when conversion is finished
+	
+	clear(ADCSRA,ADATE); // Turn off 'free-running' mode
+	
+	clear(ADCSRB,MUX5); // Select ADC0 at pin F4
+	clear(ADMUX,MUX2);
+	clear(ADMUX,MUX1);
+	clear(ADMUX,MUX0);
+	
+	set(ADCSRA,ADEN); // Enable ADC subsystem
+	
+	set(ADCSRA,ADSC); // Begin first conversion
 }

@@ -44,7 +44,8 @@ C_SRCS +=  \
 ../m_bus.c \
 ../m_rf.c \
 ../m_usb.c \
-../m_wii.c
+../m_wii.c \
+../puck_location_function.c
 
 
 PREPROCESSING_SRCS += 
@@ -61,7 +62,8 @@ motor_control_function.o \
 m_bus.o \
 m_rf.o \
 m_usb.o \
-m_wii.o
+m_wii.o \
+puck_location_function.o
 
 OBJS_AS_ARGS +=  \
 initialization_function.o \
@@ -71,7 +73,8 @@ motor_control_function.o \
 m_bus.o \
 m_rf.o \
 m_usb.o \
-m_wii.o
+m_wii.o \
+puck_location_function.o
 
 C_DEPS +=  \
 initialization_function.d \
@@ -81,7 +84,8 @@ motor_control_function.d \
 m_bus.d \
 m_rf.d \
 m_usb.d \
-m_wii.d
+m_wii.d \
+puck_location_function.d
 
 C_DEPS_AS_ARGS +=  \
 initialization_function.d \
@@ -91,7 +95,8 @@ motor_control_function.d \
 m_bus.d \
 m_rf.d \
 m_usb.d \
-m_wii.d
+m_wii.d \
+puck_location_function.d
 
 OUTPUT_FILE_PATH +=Red_Bull_Main_Code.elf
 
@@ -107,6 +112,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

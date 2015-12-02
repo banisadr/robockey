@@ -30,6 +30,7 @@ Included Files & Libraries
 #include "localization_function.h"
 #include "initialization_function.h"
 #include "motor_control_function.h"
+#include "puck_location_function.h"
 
 /************************************************************
 Definitions
@@ -62,7 +63,7 @@ float max_duty_cycle = 0.4;
 float max_theta = M_PI;
 
 /* Positioning */
-float x_target = -350;
+float x_target = 0;
 float y_target = 0;
 
 /* PD Controller Values */
@@ -215,6 +216,16 @@ ISR(INT2_vect){
 /* Timer 3 Timestep Rollover */
 ISR(TIMER3_COMPA_vect){
 	run_motor_control_loop(x_target, y_target, max_duty_cycle, max_theta, theta_kp, theta_kd, linear_kp, linear_kd, game_pause); // Update control
+}
+
+/* Switch ADC Input Pin Each time reading finishes */
+ISR(ADC_vect){
+	if(adc_switch()){
+		float puck_buffer[2];
+		get_puck_location(puck_buffer);
+		x_target = puck_buffer[0];
+		y_target = puck_buffer[1];
+	}
 }
 
 /************************************************************
