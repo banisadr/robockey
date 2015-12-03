@@ -33,19 +33,16 @@ Initialization of Pins and System Clock
 	clear(PORTB,1);
 	clear(PORTB,2);
 	clear(PORTB,3);
-	
-	m_bus_init();
-	while(!m_wii_open());
-	sei();
-
 
 
 /************************************************************
-Setup USB
+Setup Subsystems
 ************************************************************/
 
+	m_bus_init();
+	while(!m_wii_open());
+	sei();
 	m_usb_init();
-
 
 
 /************************************************************
@@ -91,7 +88,7 @@ Timer3 Initialization for fixed timestep calculations
 	
 	OCR3A = TIMESTEP*(CLOCK/TIM3_PRESCALE); // initialize OCR3A or duration
 
-	set(TIMSK3,OCIE3A); // OCR3A interrupt vector
+	// set(TIMSK3,OCIE3A); // OCR3A interrupt vector
 
 
 
@@ -99,7 +96,6 @@ Timer3 Initialization for fixed timestep calculations
 Initialize the Wireless System
 ************************************************************/
 
-	m_bus_init(); // Enable mBUS
 	m_rf_open(CHANNEL,RXADDRESS_1,PACKET_LENGTH); // Configure mRF
 
 

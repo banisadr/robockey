@@ -261,6 +261,12 @@ void update_position(void)
 		set(TIFR3,OCF3A);		// Reset flag
 		theta_target = atan2(y_target-y,x_target-x); // Update theta target
 		run_control_loop(); // Update control
+		m_usb_tx_string("\nOCR1A: ");
+		m_usb_tx_uint(OCR1A);
+		m_usb_tx_string("  OCR1B: ");
+		m_usb_tx_uint(OCR1B);
+		m_usb_tx_string("  OCR1c: ");
+		m_usb_tx_uint(OCR1C);
 	}
 	
 	robotCenterPrev[0] = x;

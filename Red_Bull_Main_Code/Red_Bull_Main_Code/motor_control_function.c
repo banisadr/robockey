@@ -111,13 +111,13 @@ void run_motor_control_loop(float x_target, float y_target, float max_duty_cycle
 
 	// Get theta error based output
 	float theta_error = theta_target - theta;
+	theta_error = theta_error_correction(theta_error);
 
 	// Resctict turn radius based on max_theta
 	if(fabs(theta_error)>max_theta){
 		theta_error = fabs(theta_error)/theta_error*max_theta;
 	}
 
-	theta_error = theta_error_correction(theta_error);
 	float derivative = (theta_error-previous_theta_error)/TIMESTEP;
 	float angular_output = theta_kp*theta_error - theta_kd*derivative; //If output > 0, turn left
 	previous_theta_error = theta_error;
@@ -180,7 +180,7 @@ void run_motor_control_loop(float x_target, float y_target, float max_duty_cycle
 		left_duty_cycle = 0;
 		right_duty_cycle = 0;
 	}
-	
+
 	// Update timer values
 	OCR1B = ((float)OCR1A)*left_duty_cycle;
 	OCR1C = ((float)OCR1A)*right_duty_cycle;

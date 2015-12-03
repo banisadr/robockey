@@ -59,7 +59,7 @@ Global Variables
 ************************************************************/
 
 /* Motor Control */
-float max_duty_cycle = 0.4;
+float max_duty_cycle = 0.3;
 float max_theta = M_PI;
 
 /* Positioning */
@@ -96,6 +96,10 @@ int main(void)
 	/* Run */
 	while (1){
 		update_position();
+		if (check(TIFR3,OCF3A)){	// Check if timestep has completed
+			set(TIFR3,OCF3A);		// Reset flag
+			run_motor_control_loop(x_target, y_target, max_duty_cycle, max_theta, theta_kp, theta_kd, linear_kp, linear_kd, game_pause); // Update control
+		}
 	}
 }
 
@@ -213,19 +217,14 @@ ISR(INT2_vect){
 	wireless_recieve();
 }
 
-/* Timer 3 Timestep Rollover */
-ISR(TIMER3_COMPA_vect){
-	run_motor_control_loop(x_target, y_target, max_duty_cycle, max_theta, theta_kp, theta_kd, linear_kp, linear_kd, game_pause); // Update control
-}
-
 /* Switch ADC Input Pin Each time reading finishes */
 ISR(ADC_vect){
-	if(adc_switch()){
-		float puck_buffer[2];
-		get_puck_location(puck_buffer);
-		x_target = puck_buffer[0];
-		y_target = puck_buffer[1];
-	}
+// 	if(adc_switch()){
+// 		float puck_buffer[2];
+// 		get_puck_location(puck_buffer);
+// 		x_target = puck_buffer[0];
+// 		y_target = puck_buffer[1];
+// 	}
 }
 
 /************************************************************
