@@ -16,6 +16,9 @@ Initialization of Pins and System Clock
 
 	// Set to 16 MHz
 	m_clockdivide(CLOCK_DIVIDE);
+
+	// Dissable JTAG
+	m_disableJTAG(); // turn off JTAG port and allow access to F4-F7 as GPIO
 	
 	//Set to Input
 	clear(DDRD,0); // D0
@@ -43,6 +46,7 @@ Setup Subsystems
 	while(!m_wii_open());
 	sei();
 	m_usb_init();
+	m_rf_open(CHANNEL,RXADDRESS_1,PACKET_LENGTH); // Configure mRF
 
 
 /************************************************************
@@ -52,7 +56,7 @@ Timer1 Initialization for PWM Motor Control
 	//Timer initialization
 	clear(TCCR1B,CS12);	//Set timer1 prescaler to /1
 	clear(TCCR1B,CS11);
-	set(TCCR1B,CS10);
+	clear(TCCR1B,CS10);
 	
 	clear(TCCR1B,WGM13);	//Use timer mode 4 (up to OCR1A)
 	set(TCCR1B,WGM12);
@@ -91,15 +95,6 @@ Timer3 Initialization for fixed timestep calculations
 	// set(TIMSK3,OCIE3A); // OCR3A interrupt vector
 
 
-
-/************************************************************
-Initialize the Wireless System
-************************************************************/
-
-	m_rf_open(CHANNEL,RXADDRESS_1,PACKET_LENGTH); // Configure mRF
-
-
-
 /************************************************************
 Setup ADC
 ************************************************************/
@@ -126,14 +121,14 @@ Setup ADC
 	set(DIDR2,ADC13D); // ADC13
 
 	
-	set(ADCSRA,ADIE); // Enable interrupt for when conversion is finished
+	// set(ADCSRA,ADIE); // Enable interrupt for when conversion is finished
 	
 	clear(ADCSRA,ADATE); // Turn off 'free-running' mode
 	
-	clear(ADCSRB,MUX5); // Select ADC0 at pin F4
-	clear(ADMUX,MUX2);
+	set(ADCSRB,MUX5); // Select ADC13 at pin B6
+	set(ADMUX,MUX2); // Transistor 4
 	clear(ADMUX,MUX1);
-	clear(ADMUX,MUX0);
+	set(ADMUX,MUX0);
 	
 	set(ADCSRA,ADEN); // Enable ADC subsystem
 	

@@ -23,8 +23,11 @@
 #define PACKET_LENGTH 10
 
 /* Puck Finding */
-#define HAS_PUCK_THRESHOLD 2000
+#define HAS_PUCK_THRESHOLD 1850
 #define PUCK_VECTOR_LEN 10
+
+/* Goal */
+#define GOAL_X_DIST 350
 
 #include <avr/io.h>
 #include "m_general.h"

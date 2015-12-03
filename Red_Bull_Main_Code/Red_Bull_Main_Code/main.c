@@ -42,6 +42,11 @@ Definitions
 Prototype Functions
 ************************************************************/
 
+/* Other */
+void motor_update(void);
+void adc_update(void);
+void bot_behavior_update(void);
+
 /* Wireless Comms */
 void wireless_recieve(void); // Send data to slave
 void update_game_state(void); // Update game state
@@ -77,7 +82,14 @@ char buffer[PACKET_LENGTH] = {0,0,0,0,0,0,0,0,0,0}; // Wifi input
 char game_state = 0x00; // Stores game state
 char SR = 0; // Score R
 char SB = 0; // Score B
-int game_pause = 1; // If true, bot will not move
+
+/* Goal */
+float x_goal = 0;
+float y_goal = 0;
+
+/* Puck */
+float x_puck = 0;
+float y_puck = 0;
 
 /************************************************************
 Main Loop
@@ -89,6 +101,7 @@ int main(void)
 
 	/* Initializations */
 	initialize_robockey();
+	pause();
 
 	/* Confirm successful initialization(s) */
 	m_green(ON);
@@ -96,16 +109,59 @@ int main(void)
 	/* Run */
 	while (1){
 		update_position();
-		if (check(TIFR3,OCF3A)){	// Check if timestep has completed
-			set(TIFR3,OCF3A);		// Reset flag
-			run_motor_control_loop(x_target, y_target, max_duty_cycle, max_theta, theta_kp, theta_kd, linear_kp, linear_kd, game_pause); // Update control
-		}
+		if (check(ADCSRA,ADIF)){adc_update();} // Check if ADC conversion has completed
+		bot_behavior_update();
+		if (check(TIFR3,OCF3A)){motor_update();}	// Check if timestep has completed
 	}
 }
 
 /************************************************************
 Initialization of Subsystem Components
 ************************************************************/
+
+/* Called On Timer 3 Rollover */
+void motor_update(void)
+{
+	set(TIFR3,OCF3A);		// Reset flag
+	run_motor_control_loop(x_target, y_target, max_duty_cycle, max_theta, theta_kp, theta_kd, linear_kp, linear_kd); // Update control
+}
+
+/* Update Targets, Gains, and Max Vals */
+void bot_behavior_update()
+{
+	if (has_puck())
+	{
+		x_target = x_goal;
+		y_target = y_goal;
+		max_theta = M_PI/2;
+		max_duty_cycle = 0.5;
+		return;
+	}
+	
+	if (!has_puck())
+	{
+		x_target = x_puck;
+		y_target = y_puck;
+		max_theta = M_PI;
+		max_duty_cycle = 0.3;
+	}
+}
+
+/* Called on ADC Conversion Completion */
+void adc_update(void)
+{
+	set(ADCSRA,ADIF);	 // Reset flag
+	if(adc_switch()){
+		float puck_buffer[2];
+		get_puck_location(puck_buffer);
+// 		m_usb_tx_string("\nPuck Vector: x= ");
+// 		m_usb_tx_int((int)(puck_buffer[0]));
+// 		m_usb_tx_string("  y= ");
+// 		m_usb_tx_int((int)(puck_buffer[1]));
+		x_puck = puck_buffer[0];
+		y_puck = puck_buffer[1];
+	}
+}
 
 /* Recieve Wireless Data */
 void wireless_recieve(void)
@@ -153,43 +209,55 @@ void update_game_state(void)
 
 void comm_test(void)
 {
-	// Assign Defending goal
-	// Flash color of LED for defending goal
-}
-
-void play(void)
-{
-	// Light LED of defending goal
-	// Play
+	/* Assign Defending goal */
 	update_position();
 	float position_buffer[3];
 	get_position(position_buffer);
 	if (position_buffer[0]>0) {
-		x_target = -350;
+		x_goal = -1*GOAL_X_DIST;
 		} else {
-		x_target = 350;
+		x_goal = GOAL_X_DIST;
 	}
-	game_pause = 0;
+	/* Flash color of LED for defending goal */
+}
+
+void play(void)
+{
+	/* Light LED of defending goal */
+	
+	/* Play */
+	set(TCCR1B,CS10);
 }
 
 void pause(void)
 {
-	// Stop within 3  seconds
-	game_pause = 1;
+	/* Stop within 3  seconds */
+	clear(TCCR1B,CS10);
+	clear(PORTB,0); // B0 Left motor off
+	clear(PORTB,2); // B2 Right motor off
 }
 
 void halftime(void)
 {
-	// Stop play
-	// Switch assigned goal
-	game_pause = 1;
+	/* Stop play */
+	pause();
+	
+	/* Switch assigned goal */
+	if (x_goal>0) {
+		x_goal = -1*GOAL_X_DIST;
+		} else {
+		x_goal = GOAL_X_DIST;
+	}
+	
 }
 
 void game_over(void)
 {
 	// Stop play
+	pause();
+	
 	// Do a victory dance based on score?
-	game_pause = 1;
+	
 }
 
 /************************************************************
@@ -217,15 +285,6 @@ ISR(INT2_vect){
 	wireless_recieve();
 }
 
-/* Switch ADC Input Pin Each time reading finishes */
-ISR(ADC_vect){
-// 	if(adc_switch()){
-// 		float puck_buffer[2];
-// 		get_puck_location(puck_buffer);
-// 		x_target = puck_buffer[0];
-// 		y_target = puck_buffer[1];
-// 	}
-}
 
 /************************************************************
 End of Program

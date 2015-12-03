@@ -104,7 +104,7 @@ void update_position(void)
 
 
 /* PID Control */
-void run_motor_control_loop(float x_target, float y_target, float max_duty_cycle, float max_theta, float theta_kp, float theta_kd, float linear_kp, float linear_kd, int game_pause)
+void run_motor_control_loop(float x_target, float y_target, float max_duty_cycle, float max_theta, float theta_kp, float theta_kd, float linear_kp, float linear_kd)
 {
 	// Set theta target
 	float theta_target = atan2(y_target-y,x_target-x);
@@ -172,13 +172,6 @@ void run_motor_control_loop(float x_target, float y_target, float max_duty_cycle
 	{
 		left_duty_cycle = left_duty_cycle/max*max_duty_cycle;
 		right_duty_cycle = right_duty_cycle/max*max_duty_cycle;
-	}
-	
-	// Check game state
-	if (game_pause)
-	{
-		left_duty_cycle = 0;
-		right_duty_cycle = 0;
 	}
 
 	// Update timer values
