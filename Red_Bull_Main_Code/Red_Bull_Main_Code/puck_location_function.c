@@ -68,21 +68,11 @@ void get_puck_location(float* puck_buffer)
 	float position_buffer[3]; // x, y, theta buffer
 	get_position(position_buffer); // get x, y, theta
 
-	// /* Get Max Transistor */
-	// int index_max = -1;
-	// int max_val = 0;
-	// for(int i=0; i<12; i++){
-	// 	if(transistor_vals[i]>max_val){
-	// 		max_val = transistor_vals[i];
-	// 		index_max = i;
-	// 	}
-	// }
-
 	/* Calculate Weighted Average of angles & Max Value */
 	int max_val = 0;
 	int scaler = 0;
 	float global_theta = 0;
-	for(int i=0; i<12; i++){
+	for(int i=0; i<10; i++){
 		scaler += transistor_vals[i];
 		global_theta += transistor_angles[i] * (float)transistor_vals[i];
 
@@ -90,7 +80,7 @@ void get_puck_location(float* puck_buffer)
 			max_val = transistor_vals[i];
 		}
 	}
-	global_theta = global_theta/(float)scaler;
+	global_theta = global_theta/((float)scaler);
 
 
 	/* If no puck found */
@@ -257,7 +247,7 @@ char adc_switch(void)
 			// m_usb_tx_int(transistor_vals[8]);
 			// m_usb_tx_string("  IR15: ");
 			// m_usb_tx_int(transistor_vals[9]);
-			
+
 			break;
 	}
 	

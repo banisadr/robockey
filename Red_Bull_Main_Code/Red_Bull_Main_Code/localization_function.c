@@ -47,9 +47,6 @@ float* localization_calc(int rawStarData[8], float robotCenterPrev[3])
 			points[i][1] = pvect[index][1];
 		}
 		
-		
-		m_red(ON);
-		
 		float* calcPointer; 
 		static float rc[3] = {0,0,0};
 		rc[0] = robotCenterPrev[0];
@@ -89,8 +86,7 @@ float* localization_calc(int rawStarData[8], float robotCenterPrev[3])
 	} else { 
 		robotCenter[0] = robotCenterPrev[0]; 
 		robotCenter[1] = robotCenterPrev[1];
-		robotCenter[2] = robotCenterPrev[2];
-		m_red(OFF);	
+		robotCenter[2] = robotCenterPrev[2];	
 	}
 	
 	
@@ -257,7 +253,6 @@ void orientationCalculationFour(int pointsLong[2], float distVect[], int* top, i
 					*top = pointsLong[1];
 					*bottom = pointsLong[0];
 				} else {
-						m_green(OFF);
 						*top = pointsLong[1];
 						*bottom = pointsLong[0];
 				}

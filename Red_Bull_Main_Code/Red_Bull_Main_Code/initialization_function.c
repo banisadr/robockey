@@ -46,7 +46,7 @@ Setup Subsystems
 	while(!m_wii_open());
 	sei();
 	m_usb_init();
-	m_rf_open(CHANNEL,RXADDRESS_1,PACKET_LENGTH); // Configure mRF
+	while(!m_rf_open(CHANNEL,RXADDRESS_1,PACKET_LENGTH)); // Configure mRF
 
 
 /************************************************************
@@ -75,8 +75,6 @@ Timer1 Initialization for PWM Motor Control
 	set(TIMSK1,OCIE1C); // OCR1C interrupt vector
 
 
-
-
 /************************************************************
 Timer3 Initialization for fixed timestep calculations
 ************************************************************/
@@ -91,8 +89,6 @@ Timer3 Initialization for fixed timestep calculations
 	clear(TCCR3A,WGM30);
 	
 	OCR3A = TIMESTEP*(CLOCK/TIM3_PRESCALE); // initialize OCR3A or duration
-
-	// set(TIMSK3,OCIE3A); // OCR3A interrupt vector
 
 
 /************************************************************
@@ -119,9 +115,6 @@ Setup ADC
 	set(DIDR2,ADC11D); // ADC11
 	set(DIDR2,ADC12D); // ADC812
 	set(DIDR2,ADC13D); // ADC13
-
-	
-	// set(ADCSRA,ADIE); // Enable interrupt for when conversion is finished
 	
 	clear(ADCSRA,ADATE); // Turn off 'free-running' mode
 	

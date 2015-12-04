@@ -64,7 +64,7 @@ Global Variables
 ************************************************************/
 
 /* Motor Control */
-float max_duty_cycle = 0.3;
+float max_duty_cycle = 0.99;
 float max_theta = M_PI;
 
 /* Positioning */
@@ -133,8 +133,8 @@ void bot_behavior_update()
 	{
 		x_target = x_goal;
 		y_target = y_goal;
-		max_theta = M_PI/2;
-		max_duty_cycle = 0.5;
+		max_theta = M_PI/3;
+		max_duty_cycle = 0.7;
 		return;
 	}
 	
@@ -143,7 +143,8 @@ void bot_behavior_update()
 		x_target = x_puck;
 		y_target = y_puck;
 		max_theta = M_PI;
-		max_duty_cycle = 0.3;
+		max_duty_cycle = 0.99;
+		return;
 	}
 }
 
@@ -154,10 +155,6 @@ void adc_update(void)
 	if(adc_switch()){
 		float puck_buffer[2];
 		get_puck_location(puck_buffer);
-// 		m_usb_tx_string("\nPuck Vector: x= ");
-// 		m_usb_tx_int((int)(puck_buffer[0]));
-// 		m_usb_tx_string("  y= ");
-// 		m_usb_tx_int((int)(puck_buffer[1]));
 		x_puck = puck_buffer[0];
 		y_puck = puck_buffer[1];
 	}
