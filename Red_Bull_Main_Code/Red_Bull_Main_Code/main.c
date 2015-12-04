@@ -46,6 +46,7 @@ Prototype Functions
 void motor_update(void);
 void adc_update(void);
 void bot_behavior_update(void);
+void select_goal(void); //chooses goal direction based on position
 
 /* Wireless Comms */
 void wireless_recieve(void); // Send data to slave
@@ -57,6 +58,7 @@ void play(void);
 void pause(void);
 void halftime(void);
 void game_over(void);
+void positioning_LED(int color); //Update positioning LED 
 
 
 /************************************************************
@@ -86,6 +88,7 @@ char SB = 0; // Score B
 /* Goal */
 float x_goal = 0;
 float y_goal = 0;
+int goal = 0;
 
 /* Puck */
 float x_puck = 0;
@@ -105,6 +108,9 @@ int main(void)
 
 	/* Confirm successful initialization(s) */
 	m_green(ON);
+	
+	/* Set opposite side as target goal */
+	select_goal(); 
 
 	/* Run */
 	while (1){
@@ -206,15 +212,7 @@ void update_game_state(void)
 
 void comm_test(void)
 {
-	/* Assign Defending goal */
-	update_position();
-	float position_buffer[3];
-	get_position(position_buffer);
-	if (position_buffer[0]>0) {
-		x_goal = -1*GOAL_X_DIST;
-		} else {
-		x_goal = GOAL_X_DIST;
-	}
+	
 	/* Flash color of LED for defending goal */
 }
 
@@ -255,6 +253,42 @@ void game_over(void)
 	
 	// Do a victory dance based on score?
 	
+}
+
+void positioning_LED(int color)
+{
+	switch(color)
+	{ 
+		case 0:	//OFF
+			clear(PORTC,7);
+			clear(PORTC,6);
+			break;
+		
+		case 1:	//BLUE
+			set(PORTC,6);
+			clear(PORTC,7);
+			break;
+			
+		case 2: //RED
+			set(PORTC,7);
+			clear(PORTC,6);
+			break;
+	}
+}
+
+void select_goal(void) 
+{
+	/* Assign Defending goal */
+	update_position();
+	float position_buffer[3];
+	get_position(position_buffer);
+	if (position_buffer[0]>0) {
+		x_goal = -1*GOAL_X_DIST;
+		goal = RED;
+		} else {
+		x_goal = GOAL_X_DIST;
+		goal = BLUE;
+	}
 }
 
 /************************************************************

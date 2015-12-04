@@ -24,10 +24,13 @@
 
 /* Puck Finding */
 #define HAS_PUCK_THRESHOLD 1850
-#define PUCK_VECTOR_LEN 1000
+#define PUCK_VECTOR_LEN 700
 
 /* Goal */
 #define GOAL_X_DIST 350
+#define OFF  0
+#define BLUE 1
+#define RED  2
 
 #include <avr/io.h>
 #include "m_general.h"

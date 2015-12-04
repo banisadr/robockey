@@ -17,7 +17,7 @@ Initialization of Pins and System Clock
 	// Set to 16 MHz
 	m_clockdivide(CLOCK_DIVIDE);
 
-	// Dissable JTAG
+	// Disable JTAG
 	m_disableJTAG(); // turn off JTAG port and allow access to F4-F7 as GPIO
 	
 	//Set to Input
@@ -31,11 +31,17 @@ Initialization of Pins and System Clock
 	set(DDRB,2); // B2 Right motor enable
 	set(DDRB,3); // B3 Right motor direction
 	
+	set(DDRC,6); //C6 Red positioning LED
+	set(DDRC,7); //C7 Blue positioning LED 
+	
 	//Set pin low
 	clear(PORTB,0);	//start with motor pins low
 	clear(PORTB,1);
 	clear(PORTB,2);
 	clear(PORTB,3);
+	
+	clear(PORTC,6); //Start with positioning LED off
+	clear(PORTC,7); 
 
 
 /************************************************************
