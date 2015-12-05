@@ -92,8 +92,8 @@ void get_puck_location(float* puck_buffer)
 
 	/* Create vector pointing to puck in global coordinates */
 	global_theta += position_buffer[2];
-	puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN + position_buffer[0]; // Assign X val
-	puck_buffer[1] = sin(global_theta)*PUCK_VECTOR_LEN + position_buffer[1]; // Assign Y val
+	puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN*max_val/1000.0 + position_buffer[0]; // Assign X val
+	puck_buffer[1] = sin(global_theta)*PUCK_VECTOR_LEN*max_val/1000.0 + position_buffer[1]; // Assign Y val
 
 }
 

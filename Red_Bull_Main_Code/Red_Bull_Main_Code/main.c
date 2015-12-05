@@ -66,7 +66,7 @@ Global Variables
 ************************************************************/
 
 /* Motor Control */
-float max_duty_cycle = 0.99;
+float max_duty_cycle = 0.7;
 float max_theta = M_PI;
 
 /* Positioning */
@@ -74,21 +74,24 @@ float x_target = 0;
 float y_target = 0;
 
 /* PD Controller Values */
-float theta_kp  = 1.0;
-float theta_kd  = 0.0;
+float theta_kp  = 0.5;
+float theta_kd  = 0.02;
 float linear_kp = 0.20;
-float linear_kd = 0.00;
+float linear_kd = 0.01;
 
 /* Wireless Comms */
 char buffer[PACKET_LENGTH] = {0,0,0,0,0,0,0,0,0,0}; // Wifi input
 char game_state = 0x00; // Stores game state
 char SR = 0; // Score R
 char SB = 0; // Score B
+int wifi_flag = 0;
+int tim0_counts = 0;
 
 /* Goal */
 float x_goal = 0;
 float y_goal = 0;
 int goal = 0;
+int goal_init = 0;
 
 /* Puck */
 float x_puck = 0;
@@ -108,9 +111,6 @@ int main(void)
 
 	/* Confirm successful initialization(s) */
 	m_green(ON);
-	
-	/* Set opposite side as target goal */
-	select_goal(); 
 
 	/* Run */
 	while (1){
@@ -118,6 +118,12 @@ int main(void)
 		if (check(ADCSRA,ADIF)){adc_update();} // Check if ADC conversion has completed
 		bot_behavior_update();
 		if (check(TIFR3,OCF3A)){motor_update();}	// Check if timestep has completed
+		if (wifi_flag) {
+			wifi_flag = 0;
+			m_red(TOGGLE);
+			wireless_recieve();
+			
+		}
 	}
 }
 
@@ -139,9 +145,11 @@ void bot_behavior_update()
 	{
 		x_target = x_goal;
 		y_target = y_goal;
-		max_theta = M_PI/3;
-		max_duty_cycle = 0.7;
+		max_theta = M_PI/2;
+		max_duty_cycle = 0.8;
+		m_green(OFF);
 		return;
+		
 	}
 	
 	if (!has_puck())
@@ -149,7 +157,8 @@ void bot_behavior_update()
 		x_target = x_puck;
 		y_target = y_puck;
 		max_theta = M_PI;
-		max_duty_cycle = 0.99;
+		max_duty_cycle = 0.8;
+		m_green(ON);
 		return;
 	}
 }
@@ -212,8 +221,14 @@ void update_game_state(void)
 
 void comm_test(void)
 {
-	
+	if (!goal_init){
+		select_goal();
+	}
 	/* Flash color of LED for defending goal */
+	set(TCCR0B,CS02); //start timer 
+	set(TCCR0B,CS00);
+	positioning_LED(goal); //turn on LED 
+	
 }
 
 void play(void)
@@ -222,6 +237,7 @@ void play(void)
 	
 	/* Play */
 	set(TCCR1B,CS10);
+	positioning_LED(goal);
 }
 
 void pause(void)
@@ -230,6 +246,7 @@ void pause(void)
 	clear(TCCR1B,CS10);
 	clear(PORTB,0); // B0 Left motor off
 	clear(PORTB,2); // B2 Right motor off
+	positioning_LED(OFF);
 }
 
 void halftime(void)
@@ -240,8 +257,10 @@ void halftime(void)
 	/* Switch assigned goal */
 	if (x_goal>0) {
 		x_goal = -1*GOAL_X_DIST;
+		goal = RED;
 		} else {
 		x_goal = GOAL_X_DIST;
+		goal = BLUE;
 	}
 	
 }
@@ -259,19 +278,19 @@ void positioning_LED(int color)
 {
 	switch(color)
 	{ 
-		case 0:	//OFF
+		case OFF:	//OFF
 			clear(PORTC,7);
 			clear(PORTC,6);
 			break;
 		
-		case 1:	//BLUE
+		case BLUE:	//BLUE
 			set(PORTC,6);
 			clear(PORTC,7);
 			break;
 			
-		case 2: //RED
-			set(PORTC,7);
+		case RED: //RED
 			clear(PORTC,6);
+			set(PORTC,7);
 			break;
 	}
 }
@@ -280,14 +299,19 @@ void select_goal(void)
 {
 	/* Assign Defending goal */
 	update_position();
+	
 	float position_buffer[3];
 	get_position(position_buffer);
+	m_usb_tx_int((int)position_buffer[0]);
+	
 	if (position_buffer[0]>0) {
 		x_goal = -1*GOAL_X_DIST;
 		goal = RED;
+		//positioning_LED(RED);
 		} else {
 		x_goal = GOAL_X_DIST;
 		goal = BLUE;
+		//positioning_LED(BLUE);
 	}
 }
 
@@ -311,11 +335,26 @@ ISR(TIMER1_COMPC_vect){
 	clear(PORTB,2); // B2 Right motor disable
 }
 
+
 /* Recieve Wireless Comm */
 ISR(INT2_vect){
-	wireless_recieve();
+	//m_red(TOGGLE);
+	wifi_flag = 1;
 }
 
+ISR(TIMER0_OVF_vect){
+	
+	if (tim0_counts < 10) {
+		tim0_counts++; //increment timer counter
+		
+	} else {
+		positioning_LED(OFF); //turn LED off
+		
+		clear(TCCR0B,CS02); //turn timer off
+		clear(TCCR0B,CS01);
+		clear(TCCR0B,CS00);
+	}
+}
 
 /************************************************************
 End of Program

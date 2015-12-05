@@ -96,7 +96,20 @@ Timer3 Initialization for fixed timestep calculations
 	
 	OCR3A = TIMESTEP*(CLOCK/TIM3_PRESCALE); // initialize OCR3A or duration
 
-
+/************************************************************
+Timer0 Initialization for COMM test 
+************************************************************/
+	clear(TCCR0B,CS02); //start with timer off
+	clear(TCCR0B,CS01);
+	clear(TCCR0B,CS00);
+	
+	clear(TCCR0B,WGM02); //Up to OCR0A mode 
+	clear(TCCR0A,WGM01);
+	clear(TCCR0A,WGM00);
+		
+	set(TIMSK0,TOIE0); //enable interupt at OCR0A
+	
+	
 /************************************************************
 Setup ADC
 ************************************************************/

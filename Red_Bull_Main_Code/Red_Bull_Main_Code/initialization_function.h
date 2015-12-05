@@ -8,12 +8,13 @@
 #define CLOCK 16000000
 #define TIM3_PRESCALE 1
 #define TIMESTEP 0.001
+#define TIM0_PRESCALE 1024
 
 /* Filter Values */
 #define ALPHA_LOW 0.99
 
 /* Motor Driver Values */
-#define PWM_FREQ 1000
+#define PWM_FREQ 1500
 
 /* Wireless Comms */
 #define CHANNEL 1
@@ -23,11 +24,11 @@
 #define PACKET_LENGTH 10
 
 /* Puck Finding */
-#define HAS_PUCK_THRESHOLD 1850
+#define HAS_PUCK_THRESHOLD 800
 #define PUCK_VECTOR_LEN 700
 
 /* Goal */
-#define GOAL_X_DIST 350
+#define GOAL_X_DIST 400
 #define OFF  0
 #define BLUE 1
 #define RED  2
