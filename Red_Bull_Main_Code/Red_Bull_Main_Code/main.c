@@ -74,8 +74,8 @@ float x_target = 0;
 float y_target = 0;
 
 /* PD Controller Values */
-float theta_kp  = 0.5;
-float theta_kd  = 0.02;
+float theta_kp  = 1.0;
+float theta_kd  = 0.00;
 float linear_kp = 0.20;
 float linear_kd = 0.01;
 
@@ -146,7 +146,9 @@ void bot_behavior_update()
 		x_target = x_goal;
 		y_target = y_goal;
 		max_theta = M_PI/2;
-		max_duty_cycle = 0.8;
+		theta_kd = 0.05;
+		theta_kp = 1.2;
+		max_duty_cycle = DUTY_CYCLE_PUCK;
 		m_green(OFF);
 		return;
 		
@@ -157,7 +159,9 @@ void bot_behavior_update()
 		x_target = x_puck;
 		y_target = y_puck;
 		max_theta = M_PI;
-		max_duty_cycle = 0.8;
+		theta_kd = 0;
+		theta_kp = 1.8;
+		max_duty_cycle = DUTY_CYCLE_SEEK;
 		m_green(ON);
 		return;
 	}
@@ -238,6 +242,15 @@ void play(void)
 	/* Play */
 	set(TCCR1B,CS10);
 	positioning_LED(goal);
+	
+	set(ADCSRB,MUX5); // Select ADC13 at pin B6
+	set(ADMUX,MUX2); // Transistor 4
+	clear(ADMUX,MUX1);
+	set(ADMUX,MUX0);
+	
+	set(ADCSRA,ADEN); // Enable ADC subsystem
+	
+	set(ADCSRA,ADSC); // Begin first conversion
 }
 
 void pause(void)
@@ -247,6 +260,8 @@ void pause(void)
 	clear(PORTB,0); // B0 Left motor off
 	clear(PORTB,2); // B2 Right motor off
 	positioning_LED(OFF);
+	
+	clear(ADCSRA,ADEN); // Disable ADC subsystem
 }
 
 void halftime(void)

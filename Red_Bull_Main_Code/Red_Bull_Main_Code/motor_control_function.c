@@ -27,6 +27,7 @@ Included Files & Libraries
 #include "m_wii.h"
 #include "localization_function.h"
 #include "initialization_function.h"
+#include "puck_location_function.h"
 
 /************************************************************
 Private Function Definitions
@@ -118,24 +119,37 @@ void run_motor_control_loop(float x_target, float y_target, float max_duty_cycle
 		theta_error = fabs(theta_error)/theta_error*max_theta;
 	}
 
-	float derivative = (theta_error-previous_theta_error)/TIMESTEP;
-	float angular_output = theta_kp*theta_error - theta_kd*derivative; //If output > 0, turn left
+	float angular_derivative = (theta_error-previous_theta_error)/TIMESTEP;
+	float angular_output = theta_kp*theta_error - theta_kd*angular_derivative; //If output > 0, turn left
 	previous_theta_error = theta_error;
 	angular_output = angular_output/M_PI; //Normalize to max value of 1 given Kp gain of 1
 	
-	// Update duty cycle based on angle
-	left_duty_cycle = - angular_output;
-	right_duty_cycle = angular_output;
+
 	
 	// Get linear error based output
 	float y_delta = y_target-y;
 	float x_delta = x_target-x;
 	float linear_error = fabs(cos(theta_error))*sqrt(y_delta*y_delta+x_delta*x_delta); // Gets component of translational error in direction bot is facing
-	derivative = (linear_error-previous_linear_error)/TIMESTEP;
-	float linear_output = linear_kp*linear_error - linear_kd*derivative;
+	if (has_puck()) {
+		if (linear_error<0){
+			linear_error = 30;
+		} else {
+			linear_error += 30;
+		}
+	}
+	float linear_derivative = (linear_error-previous_linear_error)/TIMESTEP;
+	float linear_output = linear_kp*linear_error - linear_kd*linear_derivative;
 	previous_linear_error = linear_error;
 	if(linear_output>40.0){linear_output=40.0;}
 	linear_output = linear_output/40; //Normalize to value of 1 at 40 pixels (~10 cm) given Kp gain of 1
+	
+	if (linear_derivative < 0.1 && angular_derivative < 0.01) {
+		angular_output = 0.2*fabs(theta_error)/theta_error;
+	}
+	
+	// Update duty cycle based on angle
+	left_duty_cycle = - angular_output;
+	right_duty_cycle = angular_output;
 	
 	// Update duty cycle based on linear distance
 	if (fabs(theta_error) < M_PI/2){
@@ -146,6 +160,9 @@ void run_motor_control_loop(float x_target, float y_target, float max_duty_cycle
 		right_duty_cycle -= linear_output;
 	}
 	
+	//If it has the puck, don't let either of the motors spin backwards 
+
+		
 	// Set motor direction based on pos/neg
 	if (left_duty_cycle<0){clear(PORTB,1);}
 	else{set(PORTB,1);}
@@ -173,6 +190,8 @@ void run_motor_control_loop(float x_target, float y_target, float max_duty_cycle
 		left_duty_cycle = left_duty_cycle/max*max_duty_cycle;
 		right_duty_cycle = right_duty_cycle/max*max_duty_cycle;
 	}
+	
+
 
 	// Update timer values
 	OCR1B = ((float)OCR1A)*left_duty_cycle;

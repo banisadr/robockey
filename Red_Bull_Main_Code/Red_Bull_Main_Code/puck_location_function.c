@@ -92,16 +92,24 @@ void get_puck_location(float* puck_buffer)
 
 	/* Create vector pointing to puck in global coordinates */
 	global_theta += position_buffer[2];
-	puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN*max_val/1000.0 + position_buffer[0]; // Assign X val
-	puck_buffer[1] = sin(global_theta)*PUCK_VECTOR_LEN*max_val/1000.0 + position_buffer[1]; // Assign Y val
+	puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/200.0 + position_buffer[0]; // Assign X val
+	puck_buffer[1] = sin(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/200.0 + position_buffer[1]; // Assign Y val
 
 }
 
 /* Return 1 If Has Puck */
 char has_puck(void)
 {
-	if((transistor_3 + transistor_9) > HAS_PUCK_THRESHOLD){
-		return 1;
+	static int had_puck = 5;
+	if(check(ADCSRA,ADEN)){		//check if ADC is enabled 
+		if(((transistor_3 + transistor_9) > HAS_PUCK_THRESHOLD)){
+			had_puck = 5;
+			return 1;
+		}
+		if(had_puck){
+			had_puck -= 1;
+			return 1;
+		}
 	}
 	return 0;
 }
