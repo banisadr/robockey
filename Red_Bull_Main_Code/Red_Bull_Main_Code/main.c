@@ -31,6 +31,8 @@ Included Files & Libraries
 #include "initialization_function.h"
 #include "motor_control_function.h"
 #include "puck_location_function.h"
+#include "attack_function.h"
+#include "goalie_function.h"
 
 /************************************************************
 Definitions
@@ -96,6 +98,10 @@ int goal_init = 0;
 /* Puck */
 float x_puck = 0;
 float y_puck = 0;
+int puck_dist = 0;
+
+/* Role */ 
+int role = GOALIE;
 
 /************************************************************
 Main Loop
@@ -141,30 +147,26 @@ void motor_update(void)
 /* Update Targets, Gains, and Max Vals */
 void bot_behavior_update()
 {
-	if (has_puck())
-	{
-		x_target = x_goal;
-		y_target = y_goal;
-		max_theta = M_PI/2;
-		theta_kd = 0.05;
-		theta_kp = 1.2;
-		max_duty_cycle = DUTY_CYCLE_PUCK;
-		m_green(OFF);
-		return;
-		
+	switch (role) {
+		case GOALIE:
+			goalie_action(x_goal, y_goal, x_puck, y_puck, puck_dist, &x_target, &y_target, &max_theta, &theta_kd, &theta_kp, 
+				&linear_kd, &linear_kp, &max_duty_cycle, &role);
+			break;
+			
+		case ATTACK:
+			attack_action(x_goal, y_goal, x_puck, y_puck, &x_target, &y_target, &max_theta, &theta_kd, &theta_kp, &linear_kd, &linear_kp, &max_duty_cycle);
+			positioning_LED(RED);
+			break;
+			
+		case DEFEND:
+			positioning_LED(RED);
+			break;
+			
+		default:
+			positioning_LED(RED);
+			break;
 	}
-	
-	if (!has_puck())
-	{
-		x_target = x_puck;
-		y_target = y_puck;
-		max_theta = M_PI;
-		theta_kd = 0;
-		theta_kp = 1.8;
-		max_duty_cycle = DUTY_CYCLE_SEEK;
-		m_green(ON);
-		return;
-	}
+
 }
 
 /* Called on ADC Conversion Completion */
@@ -172,10 +174,11 @@ void adc_update(void)
 {
 	set(ADCSRA,ADIF);	 // Reset flag
 	if(adc_switch()){
-		float puck_buffer[2];
+		float puck_buffer[3];
 		get_puck_location(puck_buffer);
 		x_puck = puck_buffer[0];
 		y_puck = puck_buffer[1];
+		puck_dist = puck_buffer[2];
 	}
 }
 

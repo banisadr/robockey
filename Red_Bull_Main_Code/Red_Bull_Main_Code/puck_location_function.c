@@ -87,6 +87,7 @@ void get_puck_location(float* puck_buffer)
 	if(max_val<100){
 		puck_buffer[0] = 0;
 		puck_buffer[1] = 0;
+		puck_buffer[2] = 0;
 		return;
 	}
 
@@ -94,6 +95,7 @@ void get_puck_location(float* puck_buffer)
 	global_theta += position_buffer[2];
 	puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/200.0 + position_buffer[0]; // Assign X val
 	puck_buffer[1] = sin(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/200.0 + position_buffer[1]; // Assign Y val
+	puck_buffer[2] = max_val;
 
 }
 

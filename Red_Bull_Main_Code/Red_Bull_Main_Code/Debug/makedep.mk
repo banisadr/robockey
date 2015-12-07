@@ -2,6 +2,10 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+attack_function.c
+
+goalie_function.c
+
 initialization_function.c
 
 localization_function.c

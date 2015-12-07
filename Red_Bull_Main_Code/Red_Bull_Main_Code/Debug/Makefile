@@ -37,6 +37,8 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../attack_function.c \
+../goalie_function.c \
 ../initialization_function.c \
 ../localization_function.c \
 ../main.c \
@@ -55,6 +57,8 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+attack_function.o \
+goalie_function.o \
 initialization_function.o \
 localization_function.o \
 main.o \
@@ -66,6 +70,8 @@ m_wii.o \
 puck_location_function.o
 
 OBJS_AS_ARGS +=  \
+attack_function.o \
+goalie_function.o \
 initialization_function.o \
 localization_function.o \
 main.o \
@@ -77,6 +83,8 @@ m_wii.o \
 puck_location_function.o
 
 C_DEPS +=  \
+attack_function.d \
+goalie_function.d \
 initialization_function.d \
 localization_function.d \
 main.d \
@@ -88,6 +96,8 @@ m_wii.d \
 puck_location_function.d
 
 C_DEPS_AS_ARGS +=  \
+attack_function.d \
+goalie_function.d \
 initialization_function.d \
 localization_function.d \
 main.d \
@@ -112,6 +122,10 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 

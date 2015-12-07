@@ -143,6 +143,9 @@ void run_motor_control_loop(float x_target, float y_target, float max_duty_cycle
 	if(linear_output>40.0){linear_output=40.0;}
 	linear_output = linear_output/40; //Normalize to value of 1 at 40 pixels (~10 cm) given Kp gain of 1
 	
+	
+	
+	
 	if (linear_derivative < 0.1 && angular_derivative < 0.01) {
 		angular_output = 0.2*fabs(theta_error)/theta_error;
 	}

@@ -35,6 +35,11 @@
 #define BLUE 1
 #define RED  2
 
+/* Roles */ 
+#define GOALIE 0
+#define ATTACK 1 
+#define DEFEND 2
+
 #include <avr/io.h>
 #include "m_general.h"
 #include "m_bus.h"
