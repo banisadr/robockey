@@ -242,15 +242,7 @@ void play(void)
 	/* Play */
 	set(TCCR1B,CS10);
 	positioning_LED(goal);
-	
-	set(ADCSRB,MUX5); // Select ADC13 at pin B6
-	set(ADMUX,MUX2); // Transistor 4
-	clear(ADMUX,MUX1);
-	set(ADMUX,MUX0);
-	
-	set(ADCSRA,ADEN); // Enable ADC subsystem
-	
-	set(ADCSRA,ADSC); // Begin first conversion
+
 }
 
 void pause(void)
@@ -261,7 +253,6 @@ void pause(void)
 	clear(PORTB,2); // B2 Right motor off
 	positioning_LED(OFF);
 	
-	clear(ADCSRA,ADEN); // Disable ADC subsystem
 }
 
 void halftime(void)

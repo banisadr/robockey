@@ -37,8 +37,8 @@ int main(void)
 	clear(TCCR1A,COM1B0);
 
 	OCR1A = CLOCK/PWM_FREQ;
-	OCR1B = ((float)OCR1A)*0.5;
-	OCR1C = ((float)OCR1A)*0.5;
+	OCR1B = ((float)OCR1A)*0.3;
+	OCR1C = ((float)OCR1A)*0.3;
 	
 	set(TIMSK1,OCIE1A); // OCR1A interrupt vector
 	set(TIMSK1,OCIE1B); // OCR1B interrupt vector

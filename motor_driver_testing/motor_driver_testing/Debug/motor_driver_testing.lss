@@ -21,11 +21,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_frame  00000078  00000000  00000000  00000758  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000173  00000000  00000000  000007d0  2**0
+  9 .debug_str    00000199  00000000  00000000  000007d0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000008d  00000000  00000000  00000943  2**0
+ 10 .debug_loc    0000008d  00000000  00000000  00000969  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000028  00000000  00000000  000009d0  2**0
+ 11 .debug_ranges 00000028  00000000  00000000  000009f6  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -160,30 +160,30 @@ int main(void)
  116:	99 e2       	ldi	r25, 0x29	; 41
  118:	99 83       	std	Y+1, r25	; 0x01
  11a:	88 83       	st	Y, r24
-	OCR1B = ((float)OCR1A)*0.5;
+	OCR1B = ((float)OCR1A)*0.3;
  11c:	68 81       	ld	r22, Y
  11e:	79 81       	ldd	r23, Y+1	; 0x01
  120:	80 e0       	ldi	r24, 0x00	; 0
  122:	90 e0       	ldi	r25, 0x00	; 0
  124:	0e 94 17 01 	call	0x22e	; 0x22e <__floatunsisf>
- 128:	20 e0       	ldi	r18, 0x00	; 0
- 12a:	30 e0       	ldi	r19, 0x00	; 0
- 12c:	40 e0       	ldi	r20, 0x00	; 0
- 12e:	5f e3       	ldi	r21, 0x3F	; 63
+ 128:	2a e9       	ldi	r18, 0x9A	; 154
+ 12a:	39 e9       	ldi	r19, 0x99	; 153
+ 12c:	49 e9       	ldi	r20, 0x99	; 153
+ 12e:	5e e3       	ldi	r21, 0x3E	; 62
  130:	0e 94 7d 01 	call	0x2fa	; 0x2fa <__mulsf3>
  134:	0e 94 e8 00 	call	0x1d0	; 0x1d0 <__fixunssfsi>
  138:	70 93 8b 00 	sts	0x008B, r23
  13c:	60 93 8a 00 	sts	0x008A, r22
-	OCR1C = ((float)OCR1A)*0.5;
+	OCR1C = ((float)OCR1A)*0.3;
  140:	68 81       	ld	r22, Y
  142:	79 81       	ldd	r23, Y+1	; 0x01
  144:	80 e0       	ldi	r24, 0x00	; 0
  146:	90 e0       	ldi	r25, 0x00	; 0
  148:	0e 94 17 01 	call	0x22e	; 0x22e <__floatunsisf>
- 14c:	20 e0       	ldi	r18, 0x00	; 0
- 14e:	30 e0       	ldi	r19, 0x00	; 0
- 150:	40 e0       	ldi	r20, 0x00	; 0
- 152:	5f e3       	ldi	r21, 0x3F	; 63
+ 14c:	2a e9       	ldi	r18, 0x9A	; 154
+ 14e:	39 e9       	ldi	r19, 0x99	; 153
+ 150:	49 e9       	ldi	r20, 0x99	; 153
+ 152:	5e e3       	ldi	r21, 0x3E	; 62
  154:	0e 94 7d 01 	call	0x2fa	; 0x2fa <__mulsf3>
  158:	0e 94 e8 00 	call	0x1d0	; 0x1d0 <__fixunssfsi>
  15c:	70 93 8d 00 	sts	0x008D, r23

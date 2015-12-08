@@ -145,4 +145,5 @@ Setup ADC
 	set(ADCSRA,ADEN); // Enable ADC subsystem
 	
 	set(ADCSRA,ADSC); // Begin first conversion
+	
 }
