@@ -285,18 +285,18 @@ void positioning_LED(int color)
 	switch(color)
 	{ 
 		case OFF:	//OFF
-			clear(PORTC,7);
-			clear(PORTC,6);
+			clear(PORTD,3);
+			clear(PORTD,5);
 			break;
 		
 		case BLUE:	//BLUE
-			set(PORTC,6);
-			clear(PORTC,7);
+			set(PORTD,5);
+			clear(PORTD,3);
 			break;
 			
 		case RED: //RED
-			clear(PORTC,6);
-			set(PORTC,7);
+			clear(PORTD,5);
+			set(PORTD,3);
 			break;
 	}
 }
@@ -344,13 +344,12 @@ ISR(TIMER1_COMPC_vect){
 
 /* Recieve Wireless Comm */
 ISR(INT2_vect){
-	//m_red(TOGGLE);
 	wifi_flag = 1;
 }
 
 ISR(TIMER0_OVF_vect){
 	
-	if (tim0_counts < 10) {
+	if (tim0_counts < 20) {
 		tim0_counts++; //increment timer counter
 		
 	} else {
