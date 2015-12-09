@@ -45,7 +45,8 @@ C_SRCS +=  \
 ../m_rf.c \
 ../m_usb.c \
 ../m_wii.c \
-../puck_location_function.c
+../puck_location_function.c \
+../wireless_comms_function.c
 
 
 PREPROCESSING_SRCS += 
@@ -63,7 +64,8 @@ m_bus.o \
 m_rf.o \
 m_usb.o \
 m_wii.o \
-puck_location_function.o
+puck_location_function.o \
+wireless_comms_function.o
 
 OBJS_AS_ARGS +=  \
 initialization_function.o \
@@ -74,7 +76,8 @@ m_bus.o \
 m_rf.o \
 m_usb.o \
 m_wii.o \
-puck_location_function.o
+puck_location_function.o \
+wireless_comms_function.o
 
 C_DEPS +=  \
 initialization_function.d \
@@ -85,7 +88,8 @@ m_bus.d \
 m_rf.d \
 m_usb.d \
 m_wii.d \
-puck_location_function.d
+puck_location_function.d \
+wireless_comms_function.d
 
 C_DEPS_AS_ARGS +=  \
 initialization_function.d \
@@ -96,7 +100,8 @@ m_bus.d \
 m_rf.d \
 m_usb.d \
 m_wii.d \
-puck_location_function.d
+puck_location_function.d \
+wireless_comms_function.d
 
 OUTPUT_FILE_PATH +=Red_Bull_Main_Code.elf
 
@@ -112,6 +117,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

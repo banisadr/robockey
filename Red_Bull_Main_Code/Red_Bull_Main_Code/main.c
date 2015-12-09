@@ -31,6 +31,7 @@ Included Files & Libraries
 #include "initialization_function.h"
 #include "motor_control_function.h"
 #include "puck_location_function.h"
+#include "wireless_comms_function.h"
 
 /************************************************************
 Definitions
@@ -52,7 +53,6 @@ int goalie_action(int goalie_home);	//dictates goalie behavior
 float home_dist();
 
 /* Wireless Comms */
-void wireless_recieve(void); // Send data to slave
 void update_game_state(void); // Update game state
 
 /* Reactions to Game States */
@@ -61,12 +61,13 @@ void play(void);
 void pause(void);
 void halftime(void);
 void game_over(void);
-void positioning_LED(int color); //Update positioning LED 
 
 
 /************************************************************
 Global Variables
 ************************************************************/
+/* Other */
+int self = RED_BULL;
 
 /* Motor Control */
 float max_duty_cycle = 0.7;
@@ -84,6 +85,7 @@ float linear_kd = 0.01;
 
 /* Wireless Comms */
 char buffer[PACKET_LENGTH] = {0,0,0,0,0,0,0,0,0,0}; // Wifi input
+char send_buffer[PACKET_LENGTH] = {0xA9,0,0,0,0,0,0,0,0,0};
 char game_state = 0x00; // Stores game state
 char SR = 0; // Score R
 char SB = 0; // Score B
@@ -102,6 +104,10 @@ float x_puck = 0;
 float y_puck = 0;
 int puck_dist = 0;
 
+/* Role Decision Making */
+char team_puck_capture_buffer[3] = {0,0,0};
+char team_puck_dist_buffer[3] = {0,0,0};
+
 /************************************************************
 Main Loop
 ************************************************************/
@@ -111,7 +117,7 @@ int main(void)
 	m_red(ON);
 
 	/* Initializations */
-	initialize_robockey();
+	initialize_robockey(self);
 	pause();
 
 	/* Confirm successful initialization(s) */
@@ -126,8 +132,8 @@ int main(void)
 		if (wifi_flag) {
 			wifi_flag = 0;
 			m_red(TOGGLE);
-			wireless_recieve();
-			
+			m_rf_read(buffer,PACKET_LENGTH); // Read RF Signal
+			update_game_state();			
 		}
 	}
 }
@@ -151,14 +157,12 @@ void bot_behavior_update()
 	switch (role) {
 		case ATTACK: 
 			attack_action();
-			break;
-		
+			break;		
 		case GOALIE: 
 			goalie_home = goalie_action(goalie_home);
 			break;
 			
 	}
-	
 }
 
 /* Called on ADC Conversion Completion */
@@ -170,50 +174,53 @@ void adc_update(void)
 		puck_dist = get_puck_location(puck_buffer);
 		x_puck = puck_buffer[0];
 		y_puck = puck_buffer[1];
+		
+		//Update other bots on status
+		send_buffer[2] = team_puck_capture_buffer[self];
+		send_buffer[3] = (char)(puck_dist/4);
+		team_puck_dist_buffer[self] = (char)(puck_dist/4);
+		wireless_send(self,send_buffer);
 	}
-}
-
-/* Recieve Wireless Data */
-void wireless_recieve(void)
-{
-	m_rf_read(buffer,PACKET_LENGTH); // Read RF Signal
-	game_state = buffer[0];
-	update_game_state();
 }
 
 /* Update Game State Based on Comm Protocol */
 void update_game_state(void)
 {
-	switch(game_state){
+	switch(buffer[0]){
 		case 0xA0: // Comm Test
-		comm_test();
-		break;
+			comm_test();
+			break;
 		case 0xA1: // Play
-		play();
-		break;
+			play();
+			break;
 		case 0xA2: // Goal R
-		SR = buffer[1];
-		SB = buffer[2];
-		pause();
-		break;
+			SR = buffer[1];
+			SB = buffer[2];
+			pause();
+			break;
 		case 0xA3: // Goal B
-		SR = buffer[1];
-		SB = buffer[2];
-		pause();
-		break;
+			SR = buffer[1];
+			SB = buffer[2];
+			pause();
+			break;
 		case 0xA4: // Pause
-		pause();
-		break;
+			pause();
+			break;
 		case 0xA6: // Halftime
-		halftime();
-		break;
+			halftime();
+			break;
 		case 0xA7: // Game Over
-		game_over();
-		break;
+			game_over();
+			break;
 		case 0xA8: // Enemy Positions
-		break;
+			break;
+		case 0xA9: ;// Receiving comms from other bots
+			int incoming_bot = buffer[1];
+			team_puck_capture_buffer[incoming_bot] = buffer[2];
+			team_puck_dist_buffer[incoming_bot] = buffer[3];
+			break;
 		default: // Invalid Comm
-		break;
+			break;
 	}
 }
 
@@ -270,33 +277,12 @@ void game_over(void)
 	// Stop play
 	pause();
 	
-	// Do a victory dance based on score?
-	
-}
-
-void positioning_LED(int color)
-{
-	switch(color)
-	{ 
-		case OFF:	//OFF
-			clear(PORTC,7);
-			clear(PORTC,6);
-			break;
-		
-		case BLUE:	//BLUE
-			set(PORTC,6);
-			clear(PORTC,7);
-			break;
-			
-		case RED: //RED
-			clear(PORTC,6);
-			set(PORTC,7);
-			break;
-	}
+	// Do a victory dance based on score?	
 }
 
 void select_goal(void) 
 {
+	goal_init = 1;
 	/* Assign Defending goal */
 	update_position();
 	
@@ -320,6 +306,7 @@ void select_goal(void)
 void attack_action(){
 	if (has_puck())
 	{
+		team_puck_capture_buffer[self] = 1;
 		x_target = x_goal;
 		y_target = y_goal;
 		max_theta = M_PI/2;
@@ -335,6 +322,7 @@ void attack_action(){
 
 	if (!has_puck())
 	{
+		team_puck_capture_buffer[self] = 0;
 		x_target = x_puck;
 		y_target = y_puck;
 		max_theta = M_PI;
@@ -412,7 +400,6 @@ float home_dist()
 	get_position(position_buffer);
 	float x = position_buffer[0];
 	float y = position_buffer[1];
-	float theta = position_buffer[2];
 	return sqrtf((x+x_goal)*(x+x_goal)+(y-y_goal)*(y-y_goal));
 }
 
@@ -439,13 +426,12 @@ ISR(TIMER1_COMPC_vect){
 
 /* Recieve Wireless Comm */
 ISR(INT2_vect){
-	//m_red(TOGGLE);
 	wifi_flag = 1;
 }
 
 ISR(TIMER0_OVF_vect){
 	
-	if (tim0_counts < 10) {
+	if (tim0_counts < 20) {
 		tim0_counts++; //increment timer counter
 		
 	} else {
