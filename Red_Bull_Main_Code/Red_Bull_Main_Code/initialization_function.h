@@ -3,6 +3,11 @@
 #ifndef initialization_function__
 #define initialization_function__
 
+/* Bot Assignment */
+#define RED_BULL 0
+#define GREEN_MONSTER 1
+#define BLUE_WHALE 2
+
 /* Clock Values */
 #define CLOCK_DIVIDE 0
 #define CLOCK 16000000
@@ -20,9 +25,9 @@
 
 /* Wireless Comms */
 #define CHANNEL 1
-#define RXADDRESS_1 0x20
-#define RXADDRESS_2 0x21
-#define RXADDRESS_3 0x22
+#define RXADDRESS_RED_BULL 0x20
+#define RXADDRESS_GREEN_MONSTER 0x21
+#define RXADDRESS_BLUE_WHALE 0x22
 #define PACKET_LENGTH 10
 
 /* Puck Finding */
@@ -43,6 +48,7 @@
 #include "m_wii.h"
 #include "localization_function.h"
 
-void initialize_robockey(void);
+void initialize_robockey(char self);
+void positioning_LED(int color);
 
 #endif

@@ -31,6 +31,7 @@ Included Files & Libraries
 #include "initialization_function.h"
 #include "motor_control_function.h"
 #include "puck_location_function.h"
+#include "wireless_comms_function.h"
 
 /************************************************************
 Definitions
@@ -49,7 +50,6 @@ void bot_behavior_update(void);
 void select_goal(void); //chooses goal direction based on position
 
 /* Wireless Comms */
-void wireless_recieve(void); // Send data to slave
 void update_game_state(void); // Update game state
 
 /* Reactions to Game States */
@@ -58,12 +58,13 @@ void play(void);
 void pause(void);
 void halftime(void);
 void game_over(void);
-void positioning_LED(int color); //Update positioning LED 
 
 
 /************************************************************
 Global Variables
 ************************************************************/
+/* Other */
+char self = RED_BULL;
 
 /* Motor Control */
 float max_duty_cycle = 0.7;
@@ -81,6 +82,7 @@ float linear_kd = 0.01;
 
 /* Wireless Comms */
 char buffer[PACKET_LENGTH] = {0,0,0,0,0,0,0,0,0,0}; // Wifi input
+char send_buffer[PACKET_LENGTH] = {0xA9,0,0,0,0,0,0,0,0,0};
 char game_state = 0x00; // Stores game state
 char SR = 0; // Score R
 char SB = 0; // Score B
@@ -96,6 +98,11 @@ int goal_init = 0;
 /* Puck */
 float x_puck = 0;
 float y_puck = 0;
+int puck_dist = 0;
+
+/* Role Decision Making */
+char team_puck_capture_buffer[3] = {0,0,0};
+char team_puck_dist_buffer[3] = {0,0,0};
 
 /************************************************************
 Main Loop
@@ -106,7 +113,7 @@ int main(void)
 	m_red(ON);
 
 	/* Initializations */
-	initialize_robockey();
+	initialize_robockey(self);
 	pause();
 
 	/* Confirm successful initialization(s) */
@@ -121,8 +128,8 @@ int main(void)
 		if (wifi_flag) {
 			wifi_flag = 0;
 			m_red(TOGGLE);
-			wireless_recieve();
-			
+			m_rf_read(buffer,PACKET_LENGTH); // Read RF Signal
+			update_game_state();			
 		}
 	}
 }
@@ -143,6 +150,7 @@ void bot_behavior_update()
 {
 	if (has_puck())
 	{
+		team_puck_capture_buffer[self] = 1;
 		x_target = x_goal;
 		y_target = y_goal;
 		max_theta = M_PI/2;
@@ -156,6 +164,7 @@ void bot_behavior_update()
 	
 	if (!has_puck())
 	{
+		team_puck_capture_buffer[self] = 0;
 		x_target = x_puck;
 		y_target = y_puck;
 		max_theta = M_PI;
@@ -176,50 +185,53 @@ void adc_update(void)
 		get_puck_location(puck_buffer);
 		x_puck = puck_buffer[0];
 		y_puck = puck_buffer[1];
+		
+		//Update other bots on status
+		send_buffer[2] = team_puck_capture_buffer[self];
+		send_buffer[3] = (char)(puck_dist/4);
+		team_puck_dist_buffer[self] = (char)(puck_dist/4);
+		wireless_send(self,send_buffer);
 	}
-}
-
-/* Recieve Wireless Data */
-void wireless_recieve(void)
-{
-	m_rf_read(buffer,PACKET_LENGTH); // Read RF Signal
-	game_state = buffer[0];
-	update_game_state();
 }
 
 /* Update Game State Based on Comm Protocol */
 void update_game_state(void)
 {
-	switch(game_state){
+	switch(buffer[0]){
 		case 0xA0: // Comm Test
-		comm_test();
-		break;
+			comm_test();
+			break;
 		case 0xA1: // Play
-		play();
-		break;
+			play();
+			break;
 		case 0xA2: // Goal R
-		SR = buffer[1];
-		SB = buffer[2];
-		pause();
-		break;
+			SR = buffer[1];
+			SB = buffer[2];
+			pause();
+			break;
 		case 0xA3: // Goal B
-		SR = buffer[1];
-		SB = buffer[2];
-		pause();
-		break;
+			SR = buffer[1];
+			SB = buffer[2];
+			pause();
+			break;
 		case 0xA4: // Pause
-		pause();
-		break;
+			pause();
+			break;
 		case 0xA6: // Halftime
-		halftime();
-		break;
+			halftime();
+			break;
 		case 0xA7: // Game Over
-		game_over();
-		break;
+			game_over();
+			break;
 		case 0xA8: // Enemy Positions
-		break;
+			break;
+		case 0xA9: ;// Receiving comms from other bots
+			char incoming_bot = buffer[1];
+			team_puck_capture_buffer[incoming_bot] = buffer[2];
+			team_puck_dist_buffer[incoming_bot] = buffer[3];
+			break;
 		default: // Invalid Comm
-		break;
+			break;
 	}
 }
 
@@ -276,33 +288,12 @@ void game_over(void)
 	// Stop play
 	pause();
 	
-	// Do a victory dance based on score?
-	
-}
-
-void positioning_LED(int color)
-{
-	switch(color)
-	{ 
-		case OFF:	//OFF
-			clear(PORTD,3);
-			clear(PORTD,5);
-			break;
-		
-		case BLUE:	//BLUE
-			set(PORTD,5);
-			clear(PORTD,3);
-			break;
-			
-		case RED: //RED
-			clear(PORTD,5);
-			set(PORTD,3);
-			break;
-	}
+	// Do a victory dance based on score?	
 }
 
 void select_goal(void) 
 {
+	goal_init = 1;
 	/* Assign Defending goal */
 	update_position();
 	
