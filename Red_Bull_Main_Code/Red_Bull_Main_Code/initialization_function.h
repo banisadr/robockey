@@ -15,8 +15,8 @@
 
 /* Motor Driver Values */
 #define PWM_FREQ 1500
-#define DUTY_CYCLE_PUCK 0.8
-#define DUTY_CYCLE_SEEK 0.8
+#define DUTY_CYCLE_PUCK 0.4
+#define DUTY_CYCLE_SEEK 0.4
 
 /* Wireless Comms */
 #define CHANNEL 1
@@ -25,8 +25,13 @@
 #define RXADDRESS_3 0x22
 #define PACKET_LENGTH 10
 
+/* Internal Wireless Info*/
+#define ATTACK 0
+#define GOALIE 1 
+#define DEFEND 2 
+
 /* Puck Finding */
-#define HAS_PUCK_THRESHOLD 800
+#define HAS_PUCK_THRESHOLD 100
 #define PUCK_VECTOR_LEN 700
 
 /* Goal */

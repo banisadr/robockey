@@ -47,6 +47,9 @@ void motor_update(void);
 void adc_update(void);
 void bot_behavior_update(void);
 void select_goal(void); //chooses goal direction based on position
+void attack_action();	//dictates attack behavior
+int goalie_action(int goalie_home);	//dictates goalie behavior
+float home_dist();
 
 /* Wireless Comms */
 void wireless_recieve(void); // Send data to slave
@@ -86,6 +89,7 @@ char SR = 0; // Score R
 char SB = 0; // Score B
 int wifi_flag = 0;
 int tim0_counts = 0;
+int role = GOALIE; //
 
 /* Goal */
 float x_goal = 0;
@@ -96,6 +100,7 @@ int goal_init = 0;
 /* Puck */
 float x_puck = 0;
 float y_puck = 0;
+int puck_dist = 0;
 
 /************************************************************
 Main Loop
@@ -136,35 +141,24 @@ void motor_update(void)
 {
 	set(TIFR3,OCF3A);		// Reset flag
 	run_motor_control_loop(x_target, y_target, max_duty_cycle, max_theta, theta_kp, theta_kd, linear_kp, linear_kd); // Update control
+
 }
 
 /* Update Targets, Gains, and Max Vals */
 void bot_behavior_update()
 {
-	if (has_puck())
-	{
-		x_target = x_goal;
-		y_target = y_goal;
-		max_theta = M_PI/2;
-		theta_kd = 0.05;
-		theta_kp = 1.2;
-		max_duty_cycle = DUTY_CYCLE_PUCK;
-		m_green(OFF);
-		return;
+	static int goalie_home = 0;
+	switch (role) {
+		case ATTACK: 
+			attack_action();
+			break;
 		
+		case GOALIE: 
+			goalie_home = goalie_action(goalie_home);
+			break;
+			
 	}
 	
-	if (!has_puck())
-	{
-		x_target = x_puck;
-		y_target = y_puck;
-		max_theta = M_PI;
-		theta_kd = 0;
-		theta_kp = 1.8;
-		max_duty_cycle = DUTY_CYCLE_SEEK;
-		m_green(ON);
-		return;
-	}
 }
 
 /* Called on ADC Conversion Completion */
@@ -173,7 +167,7 @@ void adc_update(void)
 	set(ADCSRA,ADIF);	 // Reset flag
 	if(adc_switch()){
 		float puck_buffer[2];
-		get_puck_location(puck_buffer);
+		puck_dist = get_puck_location(puck_buffer);
 		x_puck = puck_buffer[0];
 		y_puck = puck_buffer[1];
 	}
@@ -308,7 +302,7 @@ void select_goal(void)
 	
 	float position_buffer[3];
 	get_position(position_buffer);
-	m_usb_tx_int((int)position_buffer[0]);
+	//m_usb_tx_int((int)position_buffer[0]);
 	
 	if (position_buffer[0]>0) {
 		x_goal = -1*GOAL_X_DIST;
@@ -319,6 +313,107 @@ void select_goal(void)
 		goal = BLUE;
 		//positioning_LED(BLUE);
 	}
+	
+	goal_init = 1;
+}
+
+void attack_action(){
+	if (has_puck())
+	{
+		x_target = x_goal;
+		y_target = y_goal;
+		max_theta = M_PI/2;
+		theta_kd = 0.05;
+		theta_kp = 1.2;
+		linear_kd = 0.01;
+		linear_kp = 0.2;
+		max_duty_cycle = DUTY_CYCLE_PUCK;
+		m_green(OFF);
+		return;
+	
+	}
+
+	if (!has_puck())
+	{
+		x_target = x_puck;
+		y_target = y_puck;
+		max_theta = M_PI;
+		theta_kd = 0;
+		theta_kp = 1.8;
+		linear_kd = 0.01;
+		linear_kp = 0.2;
+		max_duty_cycle = DUTY_CYCLE_SEEK;
+		m_green(ON);
+		return;
+	}
+}
+
+int goalie_action(int goalie_home)
+{
+	/* If the puck is within range, become an attacker and get the puck */
+	if (puck_dist > 90){	
+		role = ATTACK;
+		return goalie_home;
+	}
+	
+	float dist = home_dist();	//find distance from own goal
+	//m_usb_tx_string("\n distance");
+	//m_usb_tx_int((int) dist);
+	
+	/* If the goalie is far from our goal, and hasn't registered as home, return home*/
+	if (dist > 150 && (!goalie_home)) {	
+		x_target = -x_goal*0.8;
+		y_target = y_goal;
+		max_theta = M_PI;
+		theta_kd = 0.01;
+		theta_kp = 1.8;
+		linear_kd = 0.01;
+		linear_kp = 0.2;
+		max_duty_cycle = DUTY_CYCLE_PUCK;
+		m_green(ON)
+		
+		if (dist < 155){	//If you are within 5 pixels of home, consider yourself home
+			goalie_home = 1;
+		}
+		return goalie_home;
+	}
+	
+	/* If goalie is home, turn off linear motion */
+	linear_kd = 0.0;
+	linear_kp = 0.0;
+	theta_kd = 0.02;
+	theta_kp = 0.8;
+	
+	/* If the robot drifts away from its own goal, return home*/
+	if (dist > 160){
+		goalie_home = 0;
+		return goalie_home;
+	}
+	
+	/* if the puck is visible, face the puck */
+	if (puck_dist>60){
+		x_target = x_puck;
+		y_target = y_puck;
+		return goalie_home;
+	}
+	
+	/*otherwise, face the center */
+	x_target = 0;
+	y_target = 0;
+
+	m_green(OFF);
+	return goalie_home;
+}
+
+float home_dist()
+{	
+	/* Calculates the distance to from your own goal */
+	float position_buffer[3];
+	get_position(position_buffer);
+	float x = position_buffer[0];
+	float y = position_buffer[1];
+	float theta = position_buffer[2];
+	return sqrtf((x+x_goal)*(x+x_goal)+(y-y_goal)*(y-y_goal));
 }
 
 /************************************************************

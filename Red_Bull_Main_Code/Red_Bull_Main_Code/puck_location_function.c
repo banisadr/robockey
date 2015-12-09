@@ -63,7 +63,7 @@ Public Functions
 ************************************************************/
 
 /* Returns x,y, location of puck (angle more accurate) */
-void get_puck_location(float* puck_buffer)
+int get_puck_location(float* puck_buffer)
 {
 	float position_buffer[3]; // x, y, theta buffer
 	get_position(position_buffer); // get x, y, theta
@@ -87,13 +87,15 @@ void get_puck_location(float* puck_buffer)
 	if(max_val<100){
 		puck_buffer[0] = 0;
 		puck_buffer[1] = 0;
-		return;
+		return 0;
 	}
 
 	/* Create vector pointing to puck in global coordinates */
 	global_theta += position_buffer[2];
 	puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/200.0 + position_buffer[0]; // Assign X val
 	puck_buffer[1] = sin(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/200.0 + position_buffer[1]; // Assign Y val
+	
+	return max_val;
 
 }
 
