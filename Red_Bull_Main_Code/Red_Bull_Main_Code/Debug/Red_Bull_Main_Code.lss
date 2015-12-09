@@ -6067,7 +6067,7 @@ int get_puck_location(float* puck_buffer)
     29c6:	0e 94 16 17 	call	0x2e2c	; 0x2e2c <__addsf3>
     29ca:	4b 01       	movw	r8, r22
     29cc:	5c 01       	movw	r10, r24
-	puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/100.0 + position_buffer[0]; // Assign X val
+	puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/1023.0 + position_buffer[0]; // Assign X val
     29ce:	0e 94 f9 17 	call	0x2ff2	; 0x2ff2 <cos>
     29d2:	2b 01       	movw	r4, r22
     29d4:	3c 01       	movw	r6, r24
@@ -6093,9 +6093,9 @@ int get_puck_location(float* puck_buffer)
     2a00:	96 01       	movw	r18, r12
     2a02:	0e 94 cb 19 	call	0x3396	; 0x3396 <__mulsf3>
     2a06:	20 e0       	ldi	r18, 0x00	; 0
-    2a08:	30 e0       	ldi	r19, 0x00	; 0
-    2a0a:	48 ec       	ldi	r20, 0xC8	; 200
-    2a0c:	52 e4       	ldi	r21, 0x42	; 66
+    2a08:	30 ec       	ldi	r19, 0xC0	; 192
+    2a0a:	4f e7       	ldi	r20, 0x7F	; 127
+    2a0c:	54 e4       	ldi	r21, 0x44	; 68
     2a0e:	0e 94 fe 17 	call	0x2ffc	; 0x2ffc <__divsf3>
     2a12:	29 81       	ldd	r18, Y+1	; 0x01
     2a14:	3a 81       	ldd	r19, Y+2	; 0x02
@@ -6108,7 +6108,7 @@ int get_puck_location(float* puck_buffer)
     2a24:	71 83       	std	Z+1, r23	; 0x01
     2a26:	82 83       	std	Z+2, r24	; 0x02
     2a28:	93 83       	std	Z+3, r25	; 0x03
-	puck_buffer[1] = sin(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/100.0 + position_buffer[1]; // Assign Y val
+	puck_buffer[1] = sin(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/1023.0 + position_buffer[1]; // Assign Y val
     2a2a:	c5 01       	movw	r24, r10
     2a2c:	b4 01       	movw	r22, r8
     2a2e:	0e 94 38 1a 	call	0x3470	; 0x3470 <sin>
@@ -6123,9 +6123,9 @@ int get_puck_location(float* puck_buffer)
     2a44:	b6 01       	movw	r22, r12
     2a46:	0e 94 cb 19 	call	0x3396	; 0x3396 <__mulsf3>
     2a4a:	20 e0       	ldi	r18, 0x00	; 0
-    2a4c:	30 e0       	ldi	r19, 0x00	; 0
-    2a4e:	48 ec       	ldi	r20, 0xC8	; 200
-    2a50:	52 e4       	ldi	r21, 0x42	; 66
+    2a4c:	30 ec       	ldi	r19, 0xC0	; 192
+    2a4e:	4f e7       	ldi	r20, 0x7F	; 127
+    2a50:	54 e4       	ldi	r21, 0x44	; 68
     2a52:	0e 94 fe 17 	call	0x2ffc	; 0x2ffc <__divsf3>
     2a56:	2d 81       	ldd	r18, Y+5	; 0x05
     2a58:	3e 81       	ldd	r19, Y+6	; 0x06
