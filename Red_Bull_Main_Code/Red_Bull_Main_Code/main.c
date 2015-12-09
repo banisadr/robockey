@@ -88,14 +88,15 @@ int wifi_flag = 0;
 int tim0_counts = 0;
 
 /* Goal */
-float x_goal = 0;
-float y_goal = 0;
+float x_goal = GOAL_X_DIST;
+float y_goal = 15;
 int goal = 0;
 int goal_init = 0;
 
 /* Puck */
 float x_puck = 0;
 float y_puck = 0;
+int puck_dist = 0;
 
 /************************************************************
 Main Loop
@@ -108,7 +109,8 @@ int main(void)
 	/* Initializations */
 	initialize_robockey();
 	pause();
-
+	play();
+	
 	/* Confirm successful initialization(s) */
 	m_green(ON);
 
@@ -143,11 +145,12 @@ void bot_behavior_update()
 {
 	if (has_puck())
 	{
+		positioning_LED(RED);
 		x_target = x_goal;
 		y_target = y_goal;
 		max_theta = M_PI/2;
 		theta_kd = 0.05;
-		theta_kp = 1.2;
+		theta_kp = 1.6;
 		max_duty_cycle = DUTY_CYCLE_PUCK;
 		m_green(OFF);
 		return;
@@ -156,8 +159,21 @@ void bot_behavior_update()
 	
 	if (!has_puck())
 	{
-		x_target = x_puck;
-		y_target = y_puck;
+		positioning_LED(RED);
+		float position_buffer[3];
+		get_position(position_buffer);
+		if((puck_dist>800) && (fabs(position_buffer[0]-x_goal)<(fabs(x_puck-x_goal))))
+		{
+			x_target = -x_goal;
+			y_target = y_goal;
+		} else {
+			x_target = x_puck;
+			y_target = y_puck;
+			if (!x_puck && !y_puck) {
+				positioning_LED(BLUE);
+			}
+		}
+
 		max_theta = M_PI;
 		theta_kd = 0;
 		theta_kp = 2.2;
@@ -173,7 +189,7 @@ void adc_update(void)
 	set(ADCSRA,ADIF);	 // Reset flag
 	if(adc_switch()){
 		float puck_buffer[2];
-		get_puck_location(puck_buffer);
+		puck_dist = get_puck_location(puck_buffer);
 		x_puck = puck_buffer[0];
 		y_puck = puck_buffer[1];
 	}
