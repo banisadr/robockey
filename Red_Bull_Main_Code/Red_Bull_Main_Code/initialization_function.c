@@ -8,7 +8,7 @@
 #include "m_wii.h"
 #include "initialization_function.h"
 
-void initialize_robockey(void) {
+void initialize_robockey(char self) {
 
 /************************************************************
 Initialization of Pins and System Clock
@@ -52,7 +52,15 @@ Setup Subsystems
 	while(!m_wii_open());
 	sei();
 	m_usb_init();
-	while(!m_rf_open(CHANNEL,RXADDRESS_1,PACKET_LENGTH)); // Configure mRF
+	if(self == RED_BULL){
+		while(!m_rf_open(CHANNEL,RXADDRESS_RED_BULL,PACKET_LENGTH)); // Configure mRF
+	}
+	if(self == GREEN_MONSTER){
+		while(!m_rf_open(CHANNEL,RXADDRESS_GREEN_MONSTER,PACKET_LENGTH)); // Configure mRF
+	}
+	if(self == BLUE_WHALE){
+		while(!m_rf_open(CHANNEL,RXADDRESS_BLUE_WHALE,PACKET_LENGTH)); // Configure mRF
+	}
 
 
 /************************************************************
@@ -145,5 +153,31 @@ Setup ADC
 	set(ADCSRA,ADEN); // Enable ADC subsystem
 	
 	set(ADCSRA,ADSC); // Begin first conversion
-	
+
+}
+
+
+/************************************************************
+Positioning LED Color
+************************************************************/
+
+void positioning_LED(int color)
+{
+	switch(color)
+	{ 
+		case OFF:	//OFF
+			clear(PORTD,3);
+			clear(PORTD,5);
+			break;
+		
+		case BLUE:	//BLUE
+			set(PORTD,5);
+			clear(PORTD,3);
+			break;
+			
+		case RED: //RED
+			clear(PORTD,5);
+			set(PORTD,3);
+			break;
+	}
 }

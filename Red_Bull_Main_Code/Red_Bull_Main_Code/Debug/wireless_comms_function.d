@@ -1,4 +1,5 @@
-main.d main.o: .././main.c .././m_general.h \
+wireless_comms_function.d wireless_comms_function.o: \
+ .././wireless_comms_function.c .././m_general.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdbool.h \
@@ -17,13 +18,11 @@ main.d main.o: .././main.c .././m_general.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
- .././m_bus.h \
+ .././initialization_function.h .././m_bus.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\twi.h \
  .././m_rf.h .././m_usb.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
- .././m_wii.h .././localization_function.h .././initialization_function.h \
- .././motor_control_function.h .././puck_location_function.h \
- .././wireless_comms_function.h
+ .././m_wii.h .././localization_function.h
 
 .././m_general.h:
 
@@ -63,6 +62,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
 
+.././initialization_function.h:
+
 .././m_bus.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\twi.h:
@@ -76,11 +77,3 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././m_wii.h:
 
 .././localization_function.h:
-
-.././initialization_function.h:
-
-.././motor_control_function.h:
-
-.././puck_location_function.h:
-
-.././wireless_comms_function.h:
