@@ -70,6 +70,7 @@ int get_puck_location(float* puck_buffer)
 
 	/* Calculate Weighted Average of angles & Max Value */
 	int max_val = 0;
+	static int had_seen = 0;
 	int max_index = 0;
 	int scaler = 0;
 	float global_theta = 0;
@@ -94,11 +95,15 @@ int get_puck_location(float* puck_buffer)
 
 	/* If no puck found */
 	if(max_val<100){
-		puck_buffer[0] = 0;
-		puck_buffer[1] = 0;
+		if (!had_seen){
+			puck_buffer[0] = 0;
+			puck_buffer[1] = 0;
+		}
+		had_seen -= 1;
 		return 0;
 	}
-
+	
+	had_seen = 10;
 	/* Create vector pointing to puck in global coordinates */
 	global_theta += position_buffer[2];
 	puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/100.0 + position_buffer[0]; // Assign X val

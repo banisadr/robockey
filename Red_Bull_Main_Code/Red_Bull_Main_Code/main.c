@@ -88,7 +88,7 @@ int wifi_flag = 0;
 int tim0_counts = 0;
 
 /* Goal */
-float x_goal = GOAL_X_DIST;
+float x_goal = -GOAL_X_DIST;
 float y_goal = 15;
 int goal = 0;
 int goal_init = 0;
