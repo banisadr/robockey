@@ -160,7 +160,7 @@ void bot_behavior_update()
 		y_target = y_puck;
 		max_theta = M_PI;
 		theta_kd = 0;
-		theta_kp = 1.8;
+		theta_kp = 2.2;
 		max_duty_cycle = DUTY_CYCLE_SEEK;
 		m_green(ON);
 		return;
@@ -263,10 +263,8 @@ void halftime(void)
 	/* Switch assigned goal */
 	if (x_goal>0) {
 		x_goal = -1*GOAL_X_DIST;
-		goal = RED;
 		} else {
 		x_goal = GOAL_X_DIST;
-		goal = BLUE;
 	}
 	
 }
@@ -312,11 +310,11 @@ void select_goal(void)
 	
 	if (position_buffer[0]>0) {
 		x_goal = -1*GOAL_X_DIST;
-		goal = RED;
+		goal = BLUE;
 		//positioning_LED(RED);
 		} else {
 		x_goal = GOAL_X_DIST;
-		goal = BLUE;
+		goal = RED;
 		//positioning_LED(BLUE);
 	}
 }
@@ -353,7 +351,10 @@ ISR(TIMER0_OVF_vect){
 		tim0_counts++; //increment timer counter
 		
 	} else {
-		positioning_LED(OFF); //turn LED off
+		if (game_state != 0xA1)
+		{
+			positioning_LED(OFF); //turn LED off
+		}
 		
 		clear(TCCR0B,CS02); //turn timer off
 		clear(TCCR0B,CS01);

@@ -15,8 +15,8 @@
 
 /* Motor Driver Values */
 #define PWM_FREQ 1500
-#define DUTY_CYCLE_PUCK 0.8
-#define DUTY_CYCLE_SEEK 0.8
+#define DUTY_CYCLE_PUCK 0.5
+#define DUTY_CYCLE_SEEK 0.5
 
 /* Wireless Comms */
 #define CHANNEL 1
