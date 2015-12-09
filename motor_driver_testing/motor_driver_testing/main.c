@@ -23,6 +23,9 @@ int main(void)
 	set(DDRB,2);
 	set(DDRB,3);
 	
+	set(DDRD,3);
+	set(DDRD,5);
+	
 	//Timer initialization
 	clear(TCCR1B,CS12);	//Set timer1 prescaler to /1
 	clear(TCCR1B,CS11);
@@ -44,10 +47,12 @@ int main(void)
 	set(TIMSK1,OCIE1B); // OCR1B interrupt vector
 	set(TIMSK1,OCIE1C); // OCR1C interrupt vector
 
-    set(PORTB,0); // B0 Left motor enable
-    set(PORTB,2); // B2 Right motor enable
+    clear(PORTB,0); // B0 Left motor enable
+    clear(PORTB,2); // B2 Right motor enable
 	clear(PORTB,1);
 	clear(PORTB,3);
+	
+	set(PORTD,3);
 
 	
 	

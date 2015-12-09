@@ -51,6 +51,7 @@ void select_goal(void); //chooses goal direction based on position
 void attack_action();	//dictates attack behavior
 int goalie_action(int goalie_home);	//dictates goalie behavior
 float home_dist();
+void assign_positions(void);
 
 /* Wireless Comms */
 void update_game_state(void); // Update game state
@@ -91,7 +92,7 @@ char SR = 0; // Score R
 char SB = 0; // Score B
 int wifi_flag = 0;
 int tim0_counts = 0;
-int role = GOALIE; //
+int role = ATTACK; //
 
 /* Goal */
 float x_goal = 0;
@@ -118,6 +119,7 @@ int main(void)
 
 	/* Initializations */
 	initialize_robockey(self);
+	send_buffer[1] = (char)self;
 	pause();
 
 	/* Confirm successful initialization(s) */
@@ -401,6 +403,22 @@ float home_dist()
 	float x = position_buffer[0];
 	float y = position_buffer[1];
 	return sqrtf((x+x_goal)*(x+x_goal)+(y-y_goal)*(y-y_goal));
+}
+
+void assign_positions(void)
+{
+	if(self == RED_BULL)
+	{
+		role = ATTACK;
+	}
+	if(self == GREEN_MONSTER)
+	{
+		role = GOALIE;
+	}
+	if(self == BLUE_WHALE)
+	{
+		role = ATTACK;
+	}
 }
 
 /************************************************************

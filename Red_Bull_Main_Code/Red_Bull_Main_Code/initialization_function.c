@@ -31,8 +31,8 @@ Initialization of Pins and System Clock
 	set(DDRB,2); // B2 Right motor enable
 	set(DDRB,3); // B3 Right motor direction
 	
-	set(DDRC,6); //C6 Red positioning LED
-	set(DDRC,7); //C7 Blue positioning LED 
+	set(DDRD,3); //C6 Red positioning LED
+	set(DDRD,5); //C7 Blue positioning LED 
 	
 	//Set pin low
 	clear(PORTB,0);	//start with motor pins low
