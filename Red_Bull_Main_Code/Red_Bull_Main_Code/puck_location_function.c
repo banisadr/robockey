@@ -63,38 +63,47 @@ Public Functions
 ************************************************************/
 
 /* Returns x,y, location of puck (angle more accurate) */
-void get_puck_location(float* puck_buffer)
+int get_puck_location(float* puck_buffer)
 {
 	float position_buffer[3]; // x, y, theta buffer
 	get_position(position_buffer); // get x, y, theta
 
 	/* Calculate Weighted Average of angles & Max Value */
 	int max_val = 0;
+	int max_index = 0;
 	int scaler = 0;
 	float global_theta = 0;
-	for(int i=0; i<10; i++){
+	for(int i=0; i<7; i++){
 		scaler += transistor_vals[i];
 		global_theta += transistor_angles[i] * (float)transistor_vals[i];
 
 		if(transistor_vals[i]>max_val){
 			max_val = transistor_vals[i];
+			max_index = i;
 		}
 	}
+
 	global_theta = global_theta/((float)scaler);
 	
+	if (max_index > 6){
+		scaler = transistor_vals[7]+transistor_vals[8]+transistor_vals[9];
+		global_theta = (transistor_angles[7]+2*M_PI)*(float)transistor_vals[7]+(transistor_angles[8]+2*M_PI)*(float)transistor_vals[8]+(transistor_angles[9]+2*M_PI)*(float)transistor_vals[9];
+		global_theta = global_theta/scaler; 
+		global_theta = global_theta - 2*M_PI;
+	}
 
 	/* If no puck found */
 	if(max_val<100){
 		puck_buffer[0] = 0;
 		puck_buffer[1] = 0;
-		return;
+		return 0;
 	}
 
 	/* Create vector pointing to puck in global coordinates */
 	global_theta += position_buffer[2];
 	puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/100.0 + position_buffer[0]; // Assign X val
 	puck_buffer[1] = sin(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/100.0 + position_buffer[1]; // Assign Y val
-
+	return max_val;
 }
 
 /* Return 1 If Has Puck */
@@ -103,7 +112,7 @@ char has_puck(void)
 	static int had_puck = 0;
 	if(check(ADCSRA,ADEN)){		//check if ADC is enabled 
 		if(((transistor_3 + transistor_9) > HAS_PUCK_THRESHOLD)){
-			had_puck = 20;
+			had_puck = 30;
 			return 1;
 		}
 		if(had_puck){

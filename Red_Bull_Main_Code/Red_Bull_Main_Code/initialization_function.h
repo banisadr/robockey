@@ -26,7 +26,7 @@
 #define PACKET_LENGTH 10
 
 /* Puck Finding */
-#define HAS_PUCK_THRESHOLD 800
+#define HAS_PUCK_THRESHOLD 400
 #define PUCK_VECTOR_LEN 700
 
 /* Goal */
