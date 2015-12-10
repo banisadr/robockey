@@ -44,10 +44,10 @@ int main(void)
 	set(TIMSK1,OCIE1B); // OCR1B interrupt vector
 	set(TIMSK1,OCIE1C); // OCR1C interrupt vector
 
-    set(PORTB,0); // B0 Left motor enable
-    set(PORTB,2); // B2 Right motor enable
-	clear(PORTB,1);
-	clear(PORTB,3);
+    clear(PORTB,0); // B0 Left motor enable
+    clear(PORTB,2); // B2 Right motor enable
+	set(PORTB,1);
+	set(PORTB,3);
 
 	
 	

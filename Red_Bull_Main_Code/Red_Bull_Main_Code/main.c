@@ -109,7 +109,8 @@ int main(void)
 	/* Initializations */
 	initialize_robockey();
 	pause();
-	play();
+//	play();
+
 	
 	/* Confirm successful initialization(s) */
 	m_green(ON);
@@ -145,7 +146,7 @@ void bot_behavior_update()
 {
 	if (has_puck())
 	{
-		positioning_LED(RED);
+		//positioning_LED(RED);
 		x_target = x_goal;
 		y_target = y_goal;
 		max_theta = M_PI/2;
@@ -159,7 +160,7 @@ void bot_behavior_update()
 	
 	if (!has_puck())
 	{
-		positioning_LED(RED);
+		//positioning_LED(RED);
 		float position_buffer[3];
 		get_position(position_buffer);
 		if((puck_dist>800) && (fabs(position_buffer[0]-x_goal)<(fabs(x_puck-x_goal))))
@@ -170,7 +171,7 @@ void bot_behavior_update()
 			x_target = x_puck;
 			y_target = y_puck;
 			if (!x_puck && !y_puck) {
-				positioning_LED(BLUE);
+				//positioning_LED(BLUE);
 			}
 		}
 
@@ -333,6 +334,8 @@ void select_goal(void)
 		goal = RED;
 		//positioning_LED(BLUE);
 	}
+	
+	goal_init = 1;
 }
 
 /************************************************************

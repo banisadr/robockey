@@ -21,11 +21,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_frame  00000078  00000000  00000000  00000758  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000199  00000000  00000000  000007d0  2**0
+  9 .debug_str    00000173  00000000  00000000  000007d0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    0000008d  00000000  00000000  00000969  2**0
+ 10 .debug_loc    0000008d  00000000  00000000  00000943  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000028  00000000  00000000  000009f6  2**0
+ 11 .debug_ranges 00000028  00000000  00000000  000009d0  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -204,14 +204,14 @@ int main(void)
  176:	88 60       	ori	r24, 0x08	; 8
  178:	80 83       	st	Z, r24
 
-    set(PORTB,0); // B0 Left motor enable
- 17a:	28 9a       	sbi	0x05, 0	; 5
-    set(PORTB,2); // B2 Right motor enable
- 17c:	2a 9a       	sbi	0x05, 2	; 5
-	clear(PORTB,1);
- 17e:	29 98       	cbi	0x05, 1	; 5
-	clear(PORTB,3);
- 180:	2b 98       	cbi	0x05, 3	; 5
+    clear(PORTB,0); // B0 Left motor enable
+ 17a:	28 98       	cbi	0x05, 0	; 5
+    clear(PORTB,2); // B2 Right motor enable
+ 17c:	2a 98       	cbi	0x05, 2	; 5
+	set(PORTB,1);
+ 17e:	29 9a       	sbi	0x05, 1	; 5
+	set(PORTB,3);
+ 180:	2b 9a       	sbi	0x05, 3	; 5
 
 	
 	
