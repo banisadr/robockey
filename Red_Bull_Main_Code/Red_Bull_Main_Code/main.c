@@ -99,7 +99,7 @@ float y_puck = 0;
 int puck_dist = 0;
 
 /* Bots */
-int self = BLUE_WHALE;
+int self = GREEN_MONSTER;
 
 /************************************************************
 Main Loop
@@ -171,6 +171,12 @@ void bot_behavior_update()
 	
 	if (!has_puck())
 	{
+		max_theta = M_PI;
+		theta_kd = 0;
+		theta_kp = 2.2;
+		max_duty_cycle = DUTY_CYCLE_SEEK;
+		m_green(ON);
+		
 		//positioning_LED(RED);
 		float position_buffer[3];
 		get_position(position_buffer);
@@ -185,16 +191,14 @@ void bot_behavior_update()
 		} else {
 			x_target = x_puck;
 			y_target = y_puck;
+			if ((self==BLUE_WHALE)&&(!puck_dist))
+			{
+				max_duty_cycle = 0.95;
+			}
 			if (!x_puck && !y_puck) {
 				//positioning_LED(BLUE);
 			}
 		}
-
-		max_theta = M_PI;
-		theta_kd = 0;
-		theta_kp = 2.2;
-		max_duty_cycle = DUTY_CYCLE_SEEK;
-		m_green(ON);
 		return;
 	}
 }

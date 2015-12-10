@@ -98,18 +98,28 @@ int get_puck_location(float* puck_buffer, int self, float x_goal)
 		if (!had_seen){
 			if (self == RED_BULL)
 			{
-				puck_buffer[0] = 0;
-				puck_buffer[1] = 0;
+				puck_buffer[0] = ((x_goal > 0) - (x_goal < 0))*65;
+				puck_buffer[1] = 15;
 			}
 			if (self == GREEN_MONSTER)
 			{
-				puck_buffer[0] = -(fabs(x_goal) - 75)*((x_goal > 0) - (x_goal < 0));
-				puck_buffer[1] = -10;
+				puck_buffer[0] = -((x_goal > 0) - (x_goal < 0))*65;
+				puck_buffer[1] = -15;
+				
 			}
 			if (self == BLUE_WHALE)
 			{
-				puck_buffer[0] = -((x_goal > 0) - (x_goal < 0))*166;
-				puck_buffer[1] = 50;
+				puck_buffer[0] = -(fabs(x_goal) - 150)*((x_goal > 0) - (x_goal < 0));
+				static float y_flip_blue = 200;
+				if (position_buffer[1]>75)
+				{
+					y_flip_blue = -200;
+				}
+				if (position_buffer[1] < -75)
+				{
+					y_flip_blue = 200;
+				}
+				puck_buffer[1] = y_flip_blue;
 			}
 		}
 		//had_seen -= 1;
@@ -119,8 +129,16 @@ int get_puck_location(float* puck_buffer, int self, float x_goal)
 	had_seen = 0;
 	/* Create vector pointing to puck in global coordinates */
 	global_theta += position_buffer[2];
-	puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/1023.0 + position_buffer[0]; // Assign X val
-	puck_buffer[1] = sin(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/1023.0 + position_buffer[1]; // Assign Y val
+	if (self == BLUE_WHALE)
+	{
+		puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN*(1523-max_val)/1023.0 + position_buffer[0]; // Assign X val
+		puck_buffer[1] = sin(global_theta)*PUCK_VECTOR_LEN*(1523-max_val)/1023.0 + position_buffer[1]; // Assign Y val
+	}
+	else
+	{
+		puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/1023.0 + position_buffer[0]; // Assign X val
+		puck_buffer[1] = sin(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/1023.0 + position_buffer[1]; // Assign Y val
+	}
 	return max_val;
 }
 

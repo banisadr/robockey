@@ -17,7 +17,7 @@
 #define PWM_FREQ 1500
 #define DUTY_CYCLE_PUCK 0.7
 #define DUTY_CYCLE_SEEK 0.7
-#define DUTY_CYCLE_ATTACK 0.95
+#define DUTY_CYCLE_ATTACK 0.98
 
 /* Wireless Comms */
 #define CHANNEL 1
