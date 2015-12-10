@@ -148,13 +148,22 @@ void bot_behavior_update()
 {
 	if (has_puck())
 	{
+		float position_buffer[3];
+		get_position(position_buffer);
+		float goal_angle = atan2((y_goal-position_buffer[1]),(x_goal-position_buffer[0]));
+		if (fabs(goal_angle-position_buffer[2]) < ANGLE_OF_ATTACK)
+		{
+			max_duty_cycle = DUTY_CYCLE_ATTACK;
+		} else
+		{
+			max_duty_cycle = DUTY_CYCLE_PUCK;
+		}
 		//positioning_LED(RED);
 		x_target = x_goal;
 		y_target = y_goal;
 		max_theta = M_PI/2;
 		theta_kd = 0.05;
 		theta_kp = 1.6;
-		max_duty_cycle = DUTY_CYCLE_PUCK;
 		m_green(OFF);
 		return;
 		

@@ -17,6 +17,7 @@
 #define PWM_FREQ 1500
 #define DUTY_CYCLE_PUCK 0.7
 #define DUTY_CYCLE_SEEK 0.7
+#define DUTY_CYCLE_ATTACK 0.95
 
 /* Wireless Comms */
 #define CHANNEL 1
@@ -28,6 +29,7 @@
 /* Puck Finding */
 #define HAS_PUCK_THRESHOLD 400
 #define PUCK_VECTOR_LEN 700
+#define ANGLE_OF_ATTACK 0.05
 
 /* Goal */
 #define GOAL_X_DIST 400
