@@ -99,11 +99,11 @@ int get_puck_location(float* puck_buffer)
 			puck_buffer[0] = 0;
 			puck_buffer[1] = 0;
 		}
-		had_seen -= 1;
+		//had_seen -= 1;
 		return 0;
 	}
 	
-	had_seen = 10;
+	had_seen = 0;
 	/* Create vector pointing to puck in global coordinates */
 	global_theta += position_buffer[2];
 	puck_buffer[0] = cos(global_theta)*PUCK_VECTOR_LEN*(1023-max_val)/1023.0 + position_buffer[0]; // Assign X val
