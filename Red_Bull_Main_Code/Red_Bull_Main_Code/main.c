@@ -98,6 +98,9 @@ float x_puck = 0;
 float y_puck = 0;
 int puck_dist = 0;
 
+/* Bots */
+int self = BLUE_WHALE;
+
 /************************************************************
 Main Loop
 ************************************************************/
@@ -107,7 +110,7 @@ int main(void)
 	m_red(ON);
 
 	/* Initializations */
-	initialize_robockey();
+	initialize_robockey(self);
 	pause();
 
 	
@@ -189,7 +192,7 @@ void adc_update(void)
 	set(ADCSRA,ADIF);	 // Reset flag
 	if(adc_switch()){
 		float puck_buffer[2];
-		puck_dist = get_puck_location(puck_buffer);
+		puck_dist = get_puck_location(puck_buffer, self, x_goal);
 		x_puck = puck_buffer[0];
 		y_puck = puck_buffer[1];
 	}

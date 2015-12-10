@@ -8,7 +8,7 @@
 #include "m_wii.h"
 #include "initialization_function.h"
 
-void initialize_robockey(void) {
+void initialize_robockey(int self) {
 
 /************************************************************
 Initialization of Pins and System Clock
@@ -52,7 +52,19 @@ Setup Subsystems
 	while(!m_wii_open());
 	sei();
 	m_usb_init();
-	while(!m_rf_open(CHANNEL,RXADDRESS_3,PACKET_LENGTH)); // Configure mRF
+	if (self == RED_BULL)
+	{
+		while(!m_rf_open(CHANNEL,RXADDRESS_RED_BULL,PACKET_LENGTH)); // Configure mRF
+	}
+	if (self == GREEN_MONSTER)
+	{
+		while(!m_rf_open(CHANNEL,RXADDRESS_GREEN_MONSTER,PACKET_LENGTH)); // Configure mRF
+	}
+	if (self == BLUE_WHALE)
+	{
+		while(!m_rf_open(CHANNEL,RXADDRESS_BLUE_WHALE,PACKET_LENGTH)); // Configure mRF
+	}
+	
 
 
 /************************************************************

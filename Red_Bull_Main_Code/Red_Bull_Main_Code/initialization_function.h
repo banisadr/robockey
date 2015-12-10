@@ -20,9 +20,9 @@
 
 /* Wireless Comms */
 #define CHANNEL 1
-#define RXADDRESS_1 0x20
-#define RXADDRESS_2 0x21
-#define RXADDRESS_3 0x22
+#define RXADDRESS_RED_BULL 0x20
+#define RXADDRESS_GREEN_MONSTER 0x21
+#define RXADDRESS_BLUE_WHALE 0x22
 #define PACKET_LENGTH 10
 
 /* Puck Finding */
@@ -35,6 +35,11 @@
 #define BLUE 1
 #define RED  2
 
+/* Bots */
+#define RED_BULL 0
+#define GREEN_MONSTER 1
+#define BLUE_WHALE 2
+
 #include <avr/io.h>
 #include "m_general.h"
 #include "m_bus.h"
@@ -43,6 +48,6 @@
 #include "m_wii.h"
 #include "localization_function.h"
 
-void initialize_robockey(void);
+void initialize_robockey(int self);
 
 #endif

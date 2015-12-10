@@ -63,7 +63,7 @@ Public Functions
 ************************************************************/
 
 /* Returns x,y, location of puck (angle more accurate) */
-int get_puck_location(float* puck_buffer)
+int get_puck_location(float* puck_buffer, int self, float x_goal)
 {
 	float position_buffer[3]; // x, y, theta buffer
 	get_position(position_buffer); // get x, y, theta
@@ -96,8 +96,21 @@ int get_puck_location(float* puck_buffer)
 	/* If no puck found */
 	if(max_val<100){
 		if (!had_seen){
-			puck_buffer[0] = 0;
-			puck_buffer[1] = 0;
+			if (self == RED_BULL)
+			{
+				puck_buffer[0] = 0;
+				puck_buffer[1] = 0;
+			}
+			if (self == GREEN_MONSTER)
+			{
+				puck_buffer[0] = -(fabs(x_goal) - 75)*((x_goal > 0) - (x_goal < 0));
+				puck_buffer[1] = -10;
+			}
+			if (self == BLUE_WHALE)
+			{
+				puck_buffer[0] = -((x_goal > 0) - (x_goal < 0))*166;
+				puck_buffer[1] = 50;
+			}
 		}
 		//had_seen -= 1;
 		return 0;
