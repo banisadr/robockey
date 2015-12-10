@@ -176,8 +176,12 @@ void bot_behavior_update()
 		get_position(position_buffer);
 		if((puck_dist>800) && (fabs(position_buffer[0]-x_goal)<(fabs(x_puck-x_goal))))
 		{
-			x_target = -x_goal;
+			x_target = -(fabs(x_goal) - 75)*((x_goal > 0) - (x_goal < 0));
 			y_target = y_goal;
+			if ((fabs(position_buffer[0])+25) > fabs(x_target) ){
+				x_target = x_puck;
+				y_target = y_puck;
+			}
 		} else {
 			x_target = x_puck;
 			y_target = y_puck;
