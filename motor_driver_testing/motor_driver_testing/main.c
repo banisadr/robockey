@@ -46,8 +46,8 @@ int main(void)
 
     clear(PORTB,0); // B0 Left motor enable
     clear(PORTB,2); // B2 Right motor enable
-	set(PORTB,1);
-	set(PORTB,3);
+	clear(PORTB,1);
+	clear(PORTB,3);
 
 	
 	

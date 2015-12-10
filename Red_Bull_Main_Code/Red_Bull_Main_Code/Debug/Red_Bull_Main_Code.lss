@@ -302,9 +302,9 @@ Setup Subsystems
      24c:	78 94       	sei
 	m_usb_init();
      24e:	0e 94 7c 0f 	call	0x1ef8	; 0x1ef8 <m_usb_init>
-	while(!m_rf_open(CHANNEL,RXADDRESS_1,PACKET_LENGTH)); // Configure mRF
+	while(!m_rf_open(CHANNEL,RXADDRESS_3,PACKET_LENGTH)); // Configure mRF
      252:	4a e0       	ldi	r20, 0x0A	; 10
-     254:	60 e2       	ldi	r22, 0x20	; 32
+     254:	62 e2       	ldi	r22, 0x22	; 34
      256:	81 e0       	ldi	r24, 0x01	; 1
      258:	0e 94 c2 0e 	call	0x1d84	; 0x1d84 <m_rf_open>
      25c:	88 23       	and	r24, r24
@@ -2627,7 +2627,6 @@ int main(void)
     140a:	0e 94 09 01 	call	0x212	; 0x212 <initialize_robockey>
 	pause();
     140e:	0e 94 20 09 	call	0x1240	; 0x1240 <pause>
-//	play();
 
 	
 	/* Confirm successful initialization(s) */

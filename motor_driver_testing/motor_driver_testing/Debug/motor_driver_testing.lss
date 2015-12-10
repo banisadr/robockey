@@ -208,10 +208,10 @@ int main(void)
  17a:	28 98       	cbi	0x05, 0	; 5
     clear(PORTB,2); // B2 Right motor enable
  17c:	2a 98       	cbi	0x05, 2	; 5
-	set(PORTB,1);
- 17e:	29 9a       	sbi	0x05, 1	; 5
-	set(PORTB,3);
- 180:	2b 9a       	sbi	0x05, 3	; 5
+	clear(PORTB,1);
+ 17e:	29 98       	cbi	0x05, 1	; 5
+	clear(PORTB,3);
+ 180:	2b 98       	cbi	0x05, 3	; 5
 
 	
 	

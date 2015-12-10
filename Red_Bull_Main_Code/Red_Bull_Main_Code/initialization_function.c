@@ -52,7 +52,7 @@ Setup Subsystems
 	while(!m_wii_open());
 	sei();
 	m_usb_init();
-	while(!m_rf_open(CHANNEL,RXADDRESS_1,PACKET_LENGTH)); // Configure mRF
+	while(!m_rf_open(CHANNEL,RXADDRESS_3,PACKET_LENGTH)); // Configure mRF
 
 
 /************************************************************

@@ -109,7 +109,6 @@ int main(void)
 	/* Initializations */
 	initialize_robockey();
 	pause();
-//	play();
 
 	
 	/* Confirm successful initialization(s) */
